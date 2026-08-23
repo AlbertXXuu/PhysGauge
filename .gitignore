@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+.venv/
+.wheel-venv/
+venv/
+runs/
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/

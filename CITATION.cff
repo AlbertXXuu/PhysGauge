@@ -1,0 +1,13 @@
+cff-version: 1.2.0
+message: "If you use PhysGauge, please cite this software release."
+title: "PhysGauge: Deterministic stress tests for physics-aware video metrics"
+type: software
+authors:
+  - family-names: "Xu"
+    given-names: "Albert"
+    alias: "AlbertXXuu"
+version: 1.0.0
+date-released: 2026-08-24
+url: "https://github.com/AlbertXXuu/PhysGauge"
+repository-code: "https://github.com/AlbertXXuu/PhysGauge"
+license: Apache-2.0

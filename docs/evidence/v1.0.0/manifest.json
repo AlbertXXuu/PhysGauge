@@ -1,0 +1,10 @@
+{
+  "artifacts": {
+    "metrics.csv": "77029043efaaa5b301c87dcbcb6f1c915acee739ab3c9735f0910bd74ba6f9fc",
+    "report.md": "e2b088ce027d0b73f97f2452b26936f8758e321a66129580a451971611661a8a",
+    "results.json": "8c5c0b22daa4b5584c4c1156c10345e18e4735231346df48893468aab6b1883c",
+    "sensitivity-matrix.svg": "f5c53f981cbf5530ed1a4c02d831bab0de07c73050beda4b3f46d6553db513fc"
+  },
+  "protocol_id": "physgauge-collision-calibration-v1",
+  "schema_version": "1.0"
+}

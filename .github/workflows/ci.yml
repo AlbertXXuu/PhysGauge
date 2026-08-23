@@ -1,0 +1,73 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+env:
+  PIP_DISABLE_PIP_VERSION_CHECK: "1"
+  PYTHONDONTWRITEBYTECODE: "1"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+      - name: Install project
+        run: python -m pip install -e ".[dev]"
+      - name: Lint
+        run: python -m ruff check .
+      - name: Compile
+        run: python -m compileall -q src tests scripts
+      - name: Test
+        run: python -m unittest discover -s tests -v
+      - name: Check dependencies
+        run: python -m pip check
+
+  evidence-and-wheel:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install project
+        run: python -m pip install -e ".[dev]"
+      - name: Verify repository and evidence
+        run: |
+          python scripts/check_repository.py
+          python scripts/build_evidence.py --verify
+      - name: Build wheel and source distribution
+        run: python -m build
+      - name: Install wheel in a fresh environment
+        run: |
+          python -m venv "$RUNNER_TEMP/wheel-venv"
+          "$RUNNER_TEMP/wheel-venv/bin/python" -m pip install dist/*.whl
+          "$RUNNER_TEMP/wheel-venv/bin/python" -m pip check
+      - name: Smoke-test installed wheel outside checkout
+        working-directory: ${{ runner.temp }}
+        run: |
+          "$RUNNER_TEMP/wheel-venv/bin/physgauge" --version
+          "$RUNNER_TEMP/wheel-venv/bin/physgauge" doctor
+          "$RUNNER_TEMP/wheel-venv/bin/physgauge" verify --bundle "$GITHUB_WORKSPACE/docs/evidence/v1.0.0"

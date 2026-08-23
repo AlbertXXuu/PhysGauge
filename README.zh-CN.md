@@ -1,0 +1,58 @@
+# PhysGauge
+
+[English](README.md) · [协议说明](docs/protocol.md) · [v1 证据](docs/evidence/v1.0.0/report.md)
+
+PhysGauge 是一个本地、确定性的视频评测指标压力测试工具。它在经过解析验证的二维双圆盘
+碰撞世界中注入已知错误，再检查评测指标是否发现错误，以及错误变严重时指标是否单调响应。
+
+它是**指标校准工具**，不是另一个世界模型排行榜。
+
+## v1 已经证明什么
+
+- 24 个固定种子的 oracle 轨迹全部守恒能量和动量，并且都发生可观测碰撞。
+- 状态真值指标能抓住所有注入的能量、动量、碰撞事件、初始条件和随机状态错误。
+- MSE、SSIM error、Pixel Fréchet 和时序梯度 MSE 对非弹性与动量扰动的三级强度均单调响应。
+- 不保留帧顺序的 Pixel Fréchet 存在严格盲点：整段时间反转时距离近似为零，但初始条件和
+  动力学已经错误。
+
+这些结论由测试和带 SHA-256 校验的
+[`v1.0.0` 证据包](docs/evidence/v1.0.0/manifest.json)共同约束。它们不代表所有视觉指标或公开
+排行榜都会失败，也不是对真实世界模型的评测结果。
+
+## 快速开始
+
+支持 Python 3.11–3.13。
+
+```powershell
+python -m venv .venv
+.venv\Scripts\Activate.ps1
+python -m pip install -e .
+
+physgauge doctor
+physgauge run --output runs\my-calibration
+physgauge verify --bundle docs\evidence\v1.0.0
+```
+
+一次运行会输出完整 JSON、扁平 CSV、Markdown 报告、SVG 灵敏度矩阵和 SHA-256 清单。
+不需要 API Key、网络、GPU、模型权重或训练。
+
+## Python API
+
+```python
+from physgauge import SuiteConfig, run_suite, write_bundle
+
+result = run_suite(SuiteConfig(cases=24, frames=48, seed=20260824))
+write_bundle(result, "runs/example")
+```
+
+如果模型或模拟器能提供相同的八维状态，可直接调用 `physgauge.evaluate_trajectory(...)`。
+状态布局、指标定义、阈值和结论边界见[协议说明](docs/protocol.md)。
+
+## 项目边界
+
+- v1 只覆盖等质量、二维刚性圆盘碰撞。
+- `pixel_frechet` 使用低维灰度像素特征，不是 Inception FID 或 FVD。
+- 物理定律诊断依赖状态真值；只有视频帧时只能使用视觉指标，不能获得逐定律保证。
+- 随机基线只用于标定尺度，不代表任何真实模型。
+
+Apache-2.0 许可证。PhysGauge 是 [AlvenX](https://alvenx.com) 开源项目。
