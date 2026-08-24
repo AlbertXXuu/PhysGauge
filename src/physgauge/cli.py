@@ -34,6 +34,11 @@ def _parser() -> argparse.ArgumentParser:
     verify.add_argument("--bundle", type=Path, required=True)
 
     commands.add_parser("doctor", help="print environment details and run a smoke test")
+
+    studio = commands.add_parser("studio", help="open the local visual evidence interface")
+    studio.add_argument("--host", default="127.0.0.1")
+    studio.add_argument("--port", type=int, default=7871)
+    studio.add_argument("--no-open", action="store_true")
     return parser
 
 
@@ -77,6 +82,12 @@ def _doctor() -> int:
     return 0
 
 
+def _studio(args: argparse.Namespace) -> int:
+    from .studio import serve_studio
+
+    return serve_studio(host=args.host, port=args.port, open_browser=not args.no_open)
+
+
 def main(argv: list[str] | None = None) -> int:
     args = _parser().parse_args(argv)
     try:
@@ -84,6 +95,8 @@ def main(argv: list[str] | None = None) -> int:
             return _run(args)
         if args.command == "verify":
             return _verify(args)
+        if args.command == "studio":
+            return _studio(args)
         return _doctor()
     except (OSError, ValueError) as exc:
         print(f"error: {exc}", file=sys.stderr)

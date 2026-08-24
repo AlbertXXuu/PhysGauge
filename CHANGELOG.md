@@ -11,6 +11,10 @@ All notable changes are documented here. The format follows
   small-capacity model, aggregate decision rules, target error band, and baseline dry-run.
 - Added the dependency-free NumPy R2 training/evaluation path, deterministic three-seed execution,
   case-level 95% Wilson intervals, cross-seed summaries, and hash-verified evidence bundle.
+- Added a dependency-free, loopback-only `studio` command with the AlvenX product design language,
+  visual v1 calibration, an explicitly bounded learned-model study, and a fresh smoke-check control.
+- Bundled integrity-checked AlvenX masters, Instrument Sans, and a compact evidence fallback so the
+  Studio remains functional from an installed wheel.
 
 ### Research result
 

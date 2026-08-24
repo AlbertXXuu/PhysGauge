@@ -1,0 +1,90 @@
+{
+  "calibration": {
+    "source": "Committed v1 evidence",
+    "protocol": "physgauge-collision-calibration-v1",
+    "caseCount": 24,
+    "recordCount": 240,
+    "candidateCount": 10,
+    "oraclesValid": true,
+    "violationsDetected": true,
+    "metricLabels": {
+      "mse": "MSE",
+      "ssim_error": "SSIM error",
+      "pixel_frechet": "Pixel Fréchet",
+      "temporal_gradient_mse": "Temporal Δ"
+    },
+    "rows": [
+      {
+        "name": "collision-dropout",
+        "family": "collision-dropout",
+        "violation": "collision",
+        "physicsDetection": 1.0,
+        "lowSensitivity": {"mse": 0.0, "ssim_error": 0.0, "pixel_frechet": 1.0, "temporal_gradient_mse": 1.0}
+      },
+      {
+        "name": "inelastic-0.50",
+        "family": "inelastic",
+        "violation": "energy",
+        "physicsDetection": 1.0,
+        "lowSensitivity": {"mse": 1.0, "ssim_error": 1.0, "pixel_frechet": 1.0, "temporal_gradient_mse": 1.0}
+      },
+      {
+        "name": "inelastic-0.80",
+        "family": "inelastic",
+        "violation": "energy",
+        "physicsDetection": 1.0,
+        "lowSensitivity": {"mse": 1.0, "ssim_error": 1.0, "pixel_frechet": 1.0, "temporal_gradient_mse": 1.0}
+      },
+      {
+        "name": "inelastic-0.95",
+        "family": "inelastic",
+        "violation": "energy",
+        "physicsDetection": 1.0,
+        "lowSensitivity": {"mse": 1.0, "ssim_error": 1.0, "pixel_frechet": 1.0, "temporal_gradient_mse": 1.0}
+      },
+      {
+        "name": "momentum-kick-0.025",
+        "family": "momentum-kick",
+        "violation": "momentum",
+        "physicsDetection": 1.0,
+        "lowSensitivity": {"mse": 1.0, "ssim_error": 1.0, "pixel_frechet": 1.0, "temporal_gradient_mse": 1.0}
+      },
+      {
+        "name": "momentum-kick-0.075",
+        "family": "momentum-kick",
+        "violation": "momentum",
+        "physicsDetection": 1.0,
+        "lowSensitivity": {"mse": 1.0, "ssim_error": 1.0, "pixel_frechet": 1.0, "temporal_gradient_mse": 1.0}
+      },
+      {
+        "name": "momentum-kick-0.150",
+        "family": "momentum-kick",
+        "violation": "momentum",
+        "physicsDetection": 1.0,
+        "lowSensitivity": {"mse": 1.0, "ssim_error": 1.0, "pixel_frechet": 1.0, "temporal_gradient_mse": 1.0}
+      },
+      {
+        "name": "time-reverse",
+        "family": "time-reverse",
+        "violation": "initial-condition",
+        "physicsDetection": 1.0,
+        "lowSensitivity": {"mse": 0.7083333333333334, "ssim_error": 0.7083333333333334, "pixel_frechet": 1.0, "temporal_gradient_mse": 1.0}
+      }
+    ]
+  },
+  "learnedStudy": {
+    "protocol": "physgauge-learned-dynamics-r2-v2",
+    "outcome": "inconclusive-model",
+    "classification": "too-weak",
+    "dryRunValid": true,
+    "experimentValid": true,
+    "seedCount": 3,
+    "partialErrorMean": 0.96484375,
+    "collisionAccuracyMean": 0.5703125,
+    "seeds": [
+      {"seed": 11, "classification": "too-weak", "partialErrorRate": 0.99609375, "collisionAccuracy": 0.44140625, "positionRmse": 0.05132247826892139},
+      {"seed": 29, "classification": "too-weak", "partialErrorRate": 0.98046875, "collisionAccuracy": 0.453125, "positionRmse": 0.035590482143485626},
+      {"seed": 47, "classification": "too-weak", "partialErrorRate": 0.91796875, "collisionAccuracy": 0.81640625, "positionRmse": 0.0314536955984282}
+    ]
+  }
+}

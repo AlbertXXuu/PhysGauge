@@ -1,8 +1,15 @@
+<p align="center">
+  <img src="docs/assets/alvenx-wordmark.svg" width="320" alt="AlvenX">
+  <br>
+  <strong>PHYSICS EVIDENCE</strong>
+</p>
+
 # PhysGauge
 
 [简体中文](README.zh-CN.md) · [Protocol](docs/protocol.md) · [Errata](docs/ERRATA.md) ·
-[Roadmap](docs/ROADMAP.md) · [R2 protocol](docs/r2-protocol.md) ·
-[v1 evidence](docs/evidence/v1.0.0/report.md) · [R2 evidence](docs/evidence/r2/report.md)
+[Roadmap](docs/ROADMAP.md) · [learned-model protocol (R2)](docs/r2-protocol.md) ·
+[v1 evidence](docs/evidence/v1.0.0/report.md) ·
+[learned-model evidence](docs/evidence/r2/report.md)
 
 PhysGauge is a local, deterministic stress-test suite for video evaluation metrics. It injects
 known violations into an analytically verified two-disc collision world, then measures whether an
@@ -26,14 +33,15 @@ These statements are checked by tests and by the committed, hash-verified
 [`v1.0.0` evidence bundle](docs/evidence/v1.0.0/manifest.json). They do **not** imply that every
 visual metric or public leaderboard fails, and they do not report results for a learned world model.
 
-## R2 learned-model result
+## Learned-model study result
 
-The pre-registered R2 experiment trained three small state-dynamics predictors after a successful
+The pre-registered research-milestone R2 experiment trained three small state-dynamics predictors
 oracle/persistence/linear pipeline dry-run. All three predictors were classified as `too-weak`:
 their post-contact partial-error rates were 91.8%–99.6%, so the frozen outcome is
 `inconclusive-model`. Some visual metrics showed disagreements, but the model-capability gate failed
 first; those values are therefore **not** evidence for a learned-model blind spot. See the
-[R2 report](docs/evidence/r2/report.md) and [protocol](docs/r2-protocol.md).
+[learned-model report](docs/evidence/r2/report.md) and [protocol](docs/r2-protocol.md). Here, `R2`
+means **research milestone 2**, not PhysGauge version 2.
 
 ## Quick start
 
@@ -48,11 +56,17 @@ python -m pip install -e .
 physgauge doctor
 physgauge run --output runs/my-calibration
 physgauge verify --bundle docs/evidence/v1.0.0
+physgauge studio
 ```
 
 The run command writes five reviewable files: full JSON records, flat CSV metrics, a Markdown report,
 an SVG sensitivity matrix, and a SHA-256 manifest. It needs no API key, network access, GPU, model
 weights, or training.
+
+`studio` opens a loopback-only visual interface in the AlvenX product design language. It explores
+the committed v1 calibration and the learned-model study without hiding the inconclusive capability
+gate, and it can run a four-case local smoke check from a liquid glass control. See
+[Studio usage](docs/studio.md).
 
 ## Stable Python API
 

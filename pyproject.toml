@@ -47,6 +47,14 @@ Issues = "https://github.com/AlbertXXuu/PhysGauge/issues"
 [tool.setuptools.packages.find]
 where = ["src"]
 
+[tool.setuptools.package-data]
+physgauge = [
+  "assets/brand/*.svg",
+  "assets/evidence/*.json",
+  "assets/fonts/*.woff2",
+  "assets/fonts/*.txt",
+]
+
 [tool.ruff]
 target-version = "py311"
 line-length = 100

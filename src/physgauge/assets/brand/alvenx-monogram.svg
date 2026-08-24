@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="1000" viewBox="0 0 1000 1000" role="img" aria-labelledby="title desc" data-brand-revision="2026-08-24.1">
+  <title id="title">AlvenX AX monogram</title>
+  <desc id="desc">The canonical square AlvenX mark: a blue-violet A ribbon with a dark folded reverse and aligned X arms on a pure white surface.</desc>
+  <metadata>Generated from foundation/brand/brand-tokens.json#monogram.parameters by foundation/brand/sources/alvenx-monogram/generate.mjs.</metadata>
+  <defs>
+    <linearGradient id="brand-gradient" gradientUnits="userSpaceOnUse" x1="72" y1="140" x2="1122" y2="860">
+      <stop offset="0%" stop-color="#2563EB"/>
+      <stop offset="22%" stop-color="#2563EB"/>
+      <stop offset="48%" stop-color="#4F46E5"/>
+      <stop offset="78%" stop-color="#7C3AED"/>
+      <stop offset="100%" stop-color="#7C3AED"/>
+    </linearGradient>
+  </defs>
+  <rect width="1000" height="1000" fill="#FFFFFF"/>
+  <g transform="translate(24 -16)">
+    <g fill="#0F172A">
+      <polygon points="498.737289,500 693.737289,140 839.308959,140 644.308959,500"/>
+      <polygon points="498.309754,500 698.309754,860 844.736494,860 644.736494,500"/>
+      <polygon points="395.099106,691.332031 303.737289,860 449.308959,860 540.670776,691.332031"/>
+    </g>
+    <g fill="url(#brand-gradient)">
+      <polygon points="97.171488,860 348.674286,140 468.576373,140 236.239826,860"/>
+      <polygon points="614.912728,860 383.367842,140 509.367058,140 760.869856,860"/>
+      <polygon points="230.088999,580.193912 482.929855,580.193912 540.670776,691.332031 230.088999,691.332031"/>
+    </g>
+  </g>
+</svg>
