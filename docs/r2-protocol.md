@@ -2,9 +2,10 @@
 
 协议 ID：`physgauge-learned-dynamics-r2-v2`
 
-状态：**已冻结，尚未训练 learned model。** v1 在提交 `727cd04` 留档；三基线 dry-run 后，
-v2 在未观察任何 learned-model 结果的前提下缩小训练集与模型容量，并增加目标误差带。以后若
-改变数据、模型、阈值或决策门，必须升级协议 ID、说明偏离原因并保留原结果，不能静默覆盖。
+状态：**已完成一次冻结执行，结果为 `inconclusive-model`。** v1 在提交 `727cd04` 留档；
+三基线 dry-run 后，v2 在未观察任何 learned-model 结果的前提下缩小训练集与模型容量，并增加
+目标误差带。正式执行后不再改变数据、模型、阈值或决策门；完整结果见
+[`docs/evidence/r2/`](evidence/r2/report.md)。
 
 ## 0. 研究问题与边界
 
@@ -50,8 +51,12 @@ PhysGauge 状态检查能发现、但某个视觉指标相对不敏感的误差�
 - 输出：八维增量 `Δs_t`，下一状态为 `s_t + Δs_t`。
 - 归一化：对输入和目标增量分别使用 train split 的逐维均值/标准差；标准差为零时用 1。
 - 模型：`Linear(9,32) → SiLU → Linear(32,32) → SiLU → Linear(32,8)`，float32。
+- 初始化：所有权重使用对应 seed 的 Xavier-uniform，bias 全零。
 - loss：标准化增量的 MSE，collision-window 与 free-motion 各占 50%。
-- 优化器：AdamW，learning rate `1e-3`，weight decay `1e-5`，batch size `256`。
+- 每个 epoch 使用所有 collision-window pairs 一次，并从 free-motion pairs 中无放回抽取相同
+  数量；合并后 shuffle，最后一个不足 batch 的样本也保留。下一 epoch 重新抽取 free-motion。
+- 优化器：AdamW，learning rate `1e-3`，weight decay `1e-5`，`β1=0.9`、`β2=0.999`、
+  `ε=1e-8`，batch size `256`；权重与 bias 使用同一 weight decay 规则。
 - 训练：最多 200 epochs；validation 加权 loss 连续 20 epochs 没有至少 `1e-6` 的改善则
   早停，并恢复最低 validation loss 的 checkpoint。
 - 模型随机种子：`11`、`29`、`47`。每个种子控制初始化与 batch 顺序；启用框架可用的
@@ -186,3 +191,15 @@ R2 实现阶段只新增当前结果必需的文件：
 
 R2.0 的完成标准是本协议在训练前精确定义上述内容。R2.1/R2.2 只有在代码、三种子结果、
 证据包复核与决策门全部完成后才能勾选；README、ROADMAP 或论文叙事不能替代实验结果。
+
+## 8. 冻结执行结果（事后记录，不改变协议）
+
+三个种子都被预注册决策门分类为 `too-weak`：碰撞事件准确率分别为 44.1%、45.3%、81.6%，
+碰撞后位置误差超过 0.02 的 case 比例分别为 99.6%、98.0%、91.8%。三者都没有同时达到
+“碰撞准确率至少 75% + partial error 10%..70% + 优于 linear baseline”的目标带。
+
+因此本次结果是 **`inconclusive-model`**，不是“PhysGauge 发现 learned-model 视觉盲点”的
+正证据。Pixel Fréchet 与 temporal-gradient 指标虽然出现较高的分歧率，但模型能力门先失败，
+按第 6 节顺序不得用这些后验数值触发 `continue-r3`。实验链路本身有效：三基线重现、初态合同
+与证据校验均通过。当前冻结研究线到此停止；若未来提出新模型协议，必须使用新的协议 ID 与
+新的未见测试 split，不能覆盖本结果或继续在本 test set 上调参。

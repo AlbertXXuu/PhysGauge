@@ -2,7 +2,7 @@
 
 [English](README.md) · [协议说明](docs/protocol.md) · [勘误](docs/ERRATA.md) ·
 [路线图](docs/ROADMAP.md) · [R2 实验协议](docs/r2-protocol.md) ·
-[v1 证据](docs/evidence/v1.0.0/report.md)
+[v1 证据](docs/evidence/v1.0.0/report.md) · [R2 证据](docs/evidence/r2/report.md)
 
 PhysGauge 是一个本地、确定性的视频评测指标压力测试工具。它在经过解析验证的二维双圆盘
 碰撞世界中注入已知错误，再检查评测指标是否发现错误，以及错误变严重时指标是否单调响应。
@@ -21,6 +21,14 @@ PhysGauge 是一个本地、确定性的视频评测指标压力测试工具。�
 这些结论由测试和带 SHA-256 校验的
 [`v1.0.0` 证据包](docs/evidence/v1.0.0/manifest.json)共同约束。它们不代表所有视觉指标或公开
 排行榜都会失败，也不是对真实世界模型的评测结果。
+
+## R2 learned-model 结果
+
+预注册 R2 实验在 oracle / persistence / linear 管线 dry-run 通过后，训练并评估了三个小型
+状态动力学预测器。三个种子都被分类为 `too-weak`：碰撞后 partial-error 比例为
+91.8%–99.6%，因此冻结结果是 `inconclusive-model`。部分视觉指标虽出现分歧，但模型能力门
+先失败，不能把这些数值解释为 learned-model 视觉盲点的证据。详见
+[R2 报告](docs/evidence/r2/report.md)和[实验协议](docs/r2-protocol.md)。
 
 ## 快速开始
 

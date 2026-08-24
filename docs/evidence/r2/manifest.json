@@ -1,0 +1,10 @@
+{
+  "artifacts": {
+    "metrics.csv": "6ab8e20ce18d03b5f0d425021eeff33f165d65fbcc4c65ac67b3872f3c1ed9a0",
+    "report.md": "f9396731bc8d55e4f4cfb298b060fe334256683aa246b8da61595ab0f646b8d4",
+    "results.json": "466fb723a0fef7a58cb876fd4542d5ff52b37c7457dc8364b8c5831c208450cc",
+    "split-manifest.json": "5c7b649d95ea9925af031b541f7bfb111731cbd2a98881a74d40ae0f5209b78e"
+  },
+  "protocol_id": "physgauge-learned-dynamics-r2-v2",
+  "schema_version": "1.0"
+}

@@ -9,6 +9,13 @@ All notable changes are documented here. The format follows
 
 - Frozen the pre-training R2 learned-dynamics validation protocol v2, including a small-data/
   small-capacity model, aggregate decision rules, target error band, and baseline dry-run.
+- Added the dependency-free NumPy R2 training/evaluation path, deterministic three-seed execution,
+  case-level 95% Wilson intervals, cross-seed summaries, and hash-verified evidence bundle.
+
+### Research result
+
+- Recorded the frozen R2 outcome as `inconclusive-model`: all three predictors were `too-weak`, so
+  observed visual disagreement rates are not treated as learned-model evidence.
 
 ### Fixed
 

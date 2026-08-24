@@ -13,8 +13,8 @@
 | **R1** | theoretical clarification：精确表述"逐帧排列不变距离"的能力边界 | ✅ **完成** |
 | **R2.0** | 冻结 learned-model 实验协议 v2 与目标误差带 | ✅ **完成** |
 | **R2.1a** | 三基线 dry-run 验证完整判定管线 | ✅ **完成** |
-| **R2.1b–R2.2** | learned-model implementation + validation | ⬜ 未开始 |
-| **R3** | paper decision gate：据 R2 结果决定写论文 / 扩展场景 / 停止 | ⬜ 未开始 |
+| **R2.1b–R2.2** | learned-model implementation + validation | ✅ **完成：结果 inconclusive** |
+| **R3** | paper decision gate：只有 R2 达到预注册能力门才进入 | ⏹ **未触发** |
 | 采用信号 | 记录真实使用与非作者反馈，不把单条反馈等同于市场需求 | ⬜ 尚无信号 |
 
 不再使用"真正的 v1""完成论文才是真 v1"等说法。软件 v1 已经完成，研究里程碑 R1–R3 是
@@ -78,10 +78,10 @@
 
 ## 2. R2 — learned-model validation
 
-**R2.0/R2.1a 已完成：实验协议 v2（`docs/r2-protocol.md`）已在训练前冻结，三基线 dry-run
-通过。** 协议使用 128 个训练碰撞配置与 `32×32` MLP，不删除碰撞、不引入 OOD；它精确定义
-了目标误差带、单 case → 测试集 → 跨 seed 的聚合口径及 continue / expand / stop 决策门。
-后续实现不能根据 test 结果改变模型、样本数或阈值。
+**R2.0–R2.2 已完成。** 实验协议 v2（`docs/r2-protocol.md`）在训练前冻结，三基线 dry-run
+通过；随后按唯一配置训练并评估三个种子。完整结果在 `docs/evidence/r2/`，结论是
+`inconclusive-model`：三个种子都被分类为 `too-weak`，不能用观察到的视觉分歧率支持研究
+主张。冻结 test 结果不再用于调参；当前研究线在此关闭。
 
 ### 2.1 第一步不是视频模型，是小型 learned dynamics predictor
 
@@ -93,22 +93,24 @@
   **真实学习误差**（而非注入的合成误差）。
 - 通过之后，再评估是否值得接纯视频世界模型（此时才需要处理跟踪误差的分离问题）。
 
-### 2.2 R2 验收指标
+### 2.2 R2 验收结果
 
-- [ ] 训练脚本 + 模型落地，输出八维状态，可被 `evaluate_trajectory` 直接消费。
-- [ ] 在 PhysGauge 上跑出该 learned model 的视觉指标 vs 状态指标对比。
-- [ ] 明确回答：PhysGauge 是否发现了"真实学习误差"（不是注入误差）。
-- [ ] 记录本次实验**未混入**视觉跟踪误差（因为模型直接输出状态）。
+- [x] 训练脚本 + 模型落地，输出八维状态，可被 `evaluate_trajectory` 直接消费。
+- [x] 在 256 个冻结 test cases 上完成三种子视觉指标 vs 状态指标对比。
+- [x] 明确回答：本次 learned predictor **太弱，结果不具判定力**；不能声称已验证视觉盲点。
+- [x] 记录本次实验未混入视觉跟踪误差（模型直接输出状态）。
 
 ---
 
-## 3. R3 — paper decision gate
+## 3. R3 — paper decision gate（本轮未触发）
 
-- **根据 R2 结果三选一**，不预设"必须写论文"：
+- **只有 R2 先达到模型能力门时才三选一**，不预设“必须写论文”：
   1. **写论文**：若 learned model 出现有意义的"视觉放过 + 物理抓住"分歧。
   2. **扩展场景**：若本世界太简单、learned model 全对，换更难物理（遮挡/多体/长时序）。
   3. **停止**：若 PhysGauge 作为工具本身没有被使用的需求（结合外部验证信号）。
-- [ ] 明确记录决策 + 理由（一页内）。
+- 本轮 R2 为 `inconclusive-model`，没有进入 write / expand / stop-current-line 三分支。
+  不写论文、不扩大结论，也不在已见 test split 上追逐超参数。未来若有独立理由重启，必须
+  使用新协议 ID 和新 test split。
 
 ---
 
@@ -139,13 +141,13 @@
 | R1.3 | 措辞 | report.py 动态输出 identical-by-construction 数值范围 | ✅ |
 | R2.0 | 协议 | 冻结 R2 v2 协议、容量、数据与目标误差带 | ✅ |
 | R2.1a | 基线 | oracle / persistence / linear dry-run 通过 | ✅ |
-| R2.1b | 训练 | learned dynamics predictor 输出八维状态 | ⬜ |
-| R2.2 | 验证 | PhysGauge 发现真实学习误差（或诚实记录未发现） | ⬜ |
-| R3 | 决策 | 写论文/扩展/停止 三选一 + 理由 | ⬜ |
+| R2.1b | 训练 | learned dynamics predictor 输出八维状态 | ✅ |
+| R2.2 | 验证 | 三种子冻结实验完成，诚实记录 inconclusive-model | ✅ |
+| R3 | 决策 | R2 能力门未通过，本轮不进入三分支 | ⏹ |
 | 采用 | 信号 | 非作者反馈（有则记，不硬性） | ⬜ |
 
-**闭环完成标准**：R1 全部 + R2.0 协议冻结 + R2.2 落地 = 研究验证闭环闭合。R3 落地 = 有了明确的
-下一步决策。三者都不是"更漂亮的 repo"，而是可证伪的里程碑。
+**闭环状态**：R1、R2.0 与 R2.2 都已落地，研究验证闭环已关闭；它产出了一个可复核的负结果，
+而不是论文结论。R3 前置能力门未通过，因此不进入 R3 是协议结果，不是漏做。
 
 ---
 

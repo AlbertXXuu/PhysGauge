@@ -2,7 +2,7 @@
 
 [简体中文](README.zh-CN.md) · [Protocol](docs/protocol.md) · [Errata](docs/ERRATA.md) ·
 [Roadmap](docs/ROADMAP.md) · [R2 protocol](docs/r2-protocol.md) ·
-[Evidence](docs/evidence/v1.0.0/report.md)
+[v1 evidence](docs/evidence/v1.0.0/report.md) · [R2 evidence](docs/evidence/r2/report.md)
 
 PhysGauge is a local, deterministic stress-test suite for video evaluation metrics. It injects
 known violations into an analytically verified two-disc collision world, then measures whether an
@@ -25,6 +25,15 @@ It is a **metric calibration tool**, not another world-model leaderboard.
 These statements are checked by tests and by the committed, hash-verified
 [`v1.0.0` evidence bundle](docs/evidence/v1.0.0/manifest.json). They do **not** imply that every
 visual metric or public leaderboard fails, and they do not report results for a learned world model.
+
+## R2 learned-model result
+
+The pre-registered R2 experiment trained three small state-dynamics predictors after a successful
+oracle/persistence/linear pipeline dry-run. All three predictors were classified as `too-weak`:
+their post-contact partial-error rates were 91.8%–99.6%, so the frozen outcome is
+`inconclusive-model`. Some visual metrics showed disagreements, but the model-capability gate failed
+first; those values are therefore **not** evidence for a learned-model blind spot. See the
+[R2 report](docs/evidence/r2/report.md) and [protocol](docs/r2-protocol.md).
 
 ## Quick start
 
@@ -74,6 +83,7 @@ ruff check .
 python -m unittest discover -s tests -v
 python scripts/check_repository.py
 python scripts/build_evidence.py --verify
+python scripts/run_r2.py --verify
 python -m build
 ```
 

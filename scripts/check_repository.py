@@ -12,6 +12,7 @@ SRC = ROOT / "src"
 sys.path.insert(0, str(SRC))
 
 import physgauge  # noqa: E402
+from physgauge.r2 import R2Config, verify_r2_bundle  # noqa: E402
 from physgauge.report import verify_bundle  # noqa: E402
 
 REQUIRED = (
@@ -31,6 +32,7 @@ REQUIRED = (
     "docs/r2-protocol.md",
     "docs/research-landscape.md",
     "docs/evidence/v1.0.0/manifest.json",
+    "docs/evidence/r2/manifest.json",
 )
 FORBIDDEN_PARTS = {"__pycache__", ".pytest_cache", ".ruff_cache", ".venv", "build", "dist"}
 
@@ -76,6 +78,13 @@ def main() -> int:
             verify_bundle(evidence)
         except (OSError, ValueError) as exc:
             errors.append(f"evidence verification failed: {exc}")
+
+    r2_evidence = ROOT / "docs" / "evidence" / "r2"
+    if r2_evidence.is_dir():
+        try:
+            verify_r2_bundle(r2_evidence, expected_config=R2Config())
+        except (OSError, ValueError) as exc:
+            errors.append(f"R2 evidence verification failed: {exc}")
 
     if errors:
         for error in errors:
