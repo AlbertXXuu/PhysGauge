@@ -74,6 +74,10 @@ class R2Tests(unittest.TestCase):
         numeric = (high - low) / (2.0 * epsilon)
         self.assertAlmostEqual(float(gradients["w1"][0, 0]), numeric, delta=2e-4)
 
+    def test_evidence_comparison_tolerates_only_numeric_noise(self):
+        self.assertTrue(r2_module._values_equivalent({"x": 1.0}, {"x": 1.0 + 1e-13}))
+        self.assertFalse(r2_module._values_equivalent({"x": 1.0}, {"x": 1.001}))
+
     def test_small_r2_bundle_verifies_and_rejects_tampering(self):
         result, split_manifest = run_r2_experiment(self.config)
         with tempfile.TemporaryDirectory() as temp_dir:

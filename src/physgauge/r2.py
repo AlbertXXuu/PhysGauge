@@ -121,6 +121,31 @@ def _canonical_json(value: Any) -> str:
     return json.dumps(value, indent=2, sort_keys=True, ensure_ascii=False, allow_nan=False) + "\n"
 
 
+def _values_equivalent(expected: Any, actual: Any) -> bool:
+    """Compare regenerated evidence while tolerating cross-platform libm noise."""
+
+    if isinstance(expected, dict):
+        return isinstance(actual, dict) and set(expected) == set(actual) and all(
+            _values_equivalent(expected[key], actual[key]) for key in expected
+        )
+    if isinstance(expected, list | tuple):
+        return (
+            isinstance(actual, list | tuple)
+            and len(expected) == len(actual)
+            and all(
+                _values_equivalent(left, right)
+                for left, right in zip(expected, actual, strict=True)
+            )
+        )
+    if isinstance(expected, bool | str) or expected is None:
+        return expected == actual
+    if isinstance(expected, int) and isinstance(actual, int):
+        return expected == actual
+    if isinstance(expected, int | float) and isinstance(actual, int | float):
+        return math.isclose(float(expected), float(actual), rel_tol=1e-10, abs_tol=1e-12)
+    return expected == actual
+
+
 def build_split_manifest(config: R2Config) -> dict[str, Any]:
     """Build the auditable split manifest before training."""
 
@@ -1032,9 +1057,7 @@ def verify_r2_bundle(
         asdict(reproduced_config)
     ) != _canonical_json(asdict(expected_config)):
         raise ValueError("R2 configuration does not match the frozen official protocol")
-    if _canonical_json(split_manifest) != _canonical_json(
-        build_split_manifest(reproduced_config)
-    ):
+    if not _values_equivalent(split_manifest, build_split_manifest(reproduced_config)):
         raise ValueError("R2 split manifest does not match the frozen configuration")
     _validate_result_structure(reproduced_config, result)
     records = result["records"]
@@ -1044,7 +1067,7 @@ def verify_r2_bundle(
         "across_model_seeds": _across_seed_summary(reproduced_config, candidates),
         "decision": _decision(reproduced_config, candidates),
     }
-    if result.get("summary") != expected_summary:
+    if not _values_equivalent(result.get("summary"), expected_summary):
         raise ValueError("R2 summary is inconsistent with case records")
     if (directory / "metrics.csv").read_text(encoding="utf-8") != _metrics_csv(result):
         raise ValueError("R2 CSV is inconsistent with case records")
