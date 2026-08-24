@@ -66,7 +66,9 @@ class StudioTests(unittest.TestCase):
         self.assertNotIn('style="--value:', STUDIO_JS)
         self.assertIn("location.hash==='#calibration-view'", STUDIO_JS)
         self.assertIn(".site-header{position:fixed", STUDIO_CSS)
+        self.assertIn(".site-header{position:fixed;z-index:100", STUDIO_CSS)
         self.assertIn("width:calc(min(100%,1480px)", STUDIO_CSS)
+        self.assertIn("0 24px 72px rgb(71 105 148 / 12%)", STUDIO_CSS)
 
     def test_non_loopback_host_is_rejected(self):
         with self.assertRaisesRegex(ValueError, "local-only"):
