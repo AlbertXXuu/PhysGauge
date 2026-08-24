@@ -7,8 +7,10 @@ from urllib.request import urlopen
 from physgauge.studio import (
     INDEX_HTML,
     STUDIO_CSS,
+    STUDIO_JS,
     StudioAddress,
     StudioHTTPServer,
+    _validated_smoke_config,
     load_committed_evidence,
     run_smoke_calibration,
 )
@@ -38,6 +40,12 @@ class StudioTests(unittest.TestCase):
         self.assertTrue(view["oraclesValid"])
         self.assertTrue(view["violationsDetected"])
 
+    def test_smoke_configuration_is_user_editable_but_bounded(self):
+        self.assertEqual(_validated_smoke_config(12, 999_999), (12, 999_999))
+        for cases, seed in ((0, 7), (13, 7), (4, -1), (True, 7), (4, "7")):
+            with self.subTest(cases=cases, seed=seed), self.assertRaises(ValueError):
+                _validated_smoke_config(cases, seed)
+
     def test_studio_uses_brand_tokens_and_secondary_r2_label(self):
         self.assertIn("rgb(255 255 255 / 28%)", STUDIO_CSS)
         self.assertIn("blur(24px)", STUDIO_CSS)
@@ -45,6 +53,14 @@ class StudioTests(unittest.TestCase):
         self.assertIn('id="run-smoke"', INDEX_HTML)
         self.assertIn('aria-live="polite"', INDEX_HTML)
         self.assertNotIn("R2", INDEX_HTML.split("Technical protocol identifier")[0])
+        self.assertIn('role="tablist"', INDEX_HTML)
+        self.assertIn('id="smoke-cases"', INDEX_HTML)
+        self.assertIn('id="smoke-seed"', INDEX_HTML)
+        self.assertIn("line-height:1.02", STUDIO_CSS)
+        self.assertIn("scroll-margin-top:112px", STUDIO_CSS)
+        self.assertIn("matrix-cell value v${band}", STUDIO_JS)
+        self.assertNotIn('style="--value:', STUDIO_JS)
+        self.assertIn("location.hash==='#calibration-view'", STUDIO_JS)
 
     def test_non_loopback_host_is_rejected(self):
         with self.assertRaisesRegex(ValueError, "local-only"):
