@@ -1,6 +1,8 @@
 # PhysGauge
 
-[简体中文](README.zh-CN.md) · [Protocol](docs/protocol.md) · [Evidence](docs/evidence/v1.0.0/report.md)
+[简体中文](README.zh-CN.md) · [Protocol](docs/protocol.md) · [Errata](docs/ERRATA.md) ·
+[Roadmap](docs/ROADMAP.md) · [R2 protocol](docs/r2-protocol.md) ·
+[Evidence](docs/evidence/v1.0.0/report.md)
 
 PhysGauge is a local, deterministic stress-test suite for video evaluation metrics. It injects
 known violations into an analytically verified two-disc collision world, then measures whether an
@@ -15,8 +17,10 @@ It is a **metric calibration tool**, not another world-model leaderboard.
   and random-state violation.
 - MSE, SSIM error, Pixel Fréchet, and temporal-gradient MSE increase monotonically across the frozen
   inelastic and momentum-kick severity sweeps.
-- The order-invariant Pixel Fréchet metric has an exact blind spot: reversing the entire frame set
-  yields approximately zero distance even though the initial condition and dynamics are wrong.
+- The order-invariant Pixel Fréchet metric has a frame-order blind spot: reversing the frame
+  sequence without negating velocities (a frame-order reversal, not a physical time reversal)
+  yields computed distances from 0 to 5.76e-15 even though the kinematic residual is large.
+  See [Errata](docs/ERRATA.md).
 
 These statements are checked by tests and by the committed, hash-verified
 [`v1.0.0` evidence bundle](docs/evidence/v1.0.0/manifest.json). They do **not** imply that every

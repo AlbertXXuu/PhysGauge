@@ -41,8 +41,12 @@ duration while remaining away from the walls.
 | inelastic | restitution 0.95, 0.80, 0.50 | relative energy drift |
 | momentum kick | 0.025, 0.075, 0.150 | normalized momentum drift |
 | collision dropout | 1 | wrong post-contact relative velocity sign |
-| time reverse | 1 | wrong initial state and kinematic residual |
+| `time-reverse` (legacy ID) | 1 | wrong initial state and kinematic residual |
 | random | 1 | large state-position error |
+
+> The `time-reverse` candidate reverses the state sequence without negating velocities — a
+> frame-order reversal, not a physical time reversal. The machine ID is preserved for schema
+> compatibility. See [ERRATA](ERRATA.md).
 
 ## Metrics
 
@@ -72,12 +76,15 @@ The committed v1 bundle is accepted only when:
 3. the correct control is pixel-identical and is not falsely flagged;
 4. every visual/temporal metric is strictly monotonic over all adjacent severity levels in both
    continuous corruption families; and
-5. `pixel_frechet` exactly misses the time-reversed frame set in every case.
+5. `pixel_frechet` remains at or below the `1e-10` exact-miss tolerance for the
+   frame-order-reversed frame set in every case.
 
 ## Interpretation
 
 The protocol calibrates metrics under controlled perturbations. It does not estimate real-world
 model quality, human preference, or model ranking. A user should combine it with broader datasets,
-human judgments, and task-specific state extraction. The exact time-reversal result applies to any
-frame-distribution metric that discards order; the numerical sensitivity results apply only to this
-renderer and frozen suite.
+human judgments, and task-specific state extraction. The frame-order-reversal result applies to any
+distance built on per-frame independent features whose empirical distribution is permutation-
+invariant (e.g. per-frame FID or `pixel_frechet`); it does not automatically extend to metrics that
+use temporal features, such as FVD. The numerical sensitivity results apply only to this renderer
+and frozen suite. See [ERRATA](ERRATA.md).

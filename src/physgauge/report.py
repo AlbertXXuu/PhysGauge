@@ -20,6 +20,8 @@ def _canonical_json(value: Any) -> str:
 def validate_result(result: dict[str, Any]) -> None:
     """Validate the frozen v1 scientific and structural acceptance criteria."""
 
+    if not isinstance(result, dict):
+        raise ValueError("evidence result must be a JSON object")
     if result.get("schema_version") != "1.0":
         raise ValueError("unsupported evidence schema")
     summary = result.get("summary", {})
@@ -43,6 +45,13 @@ def validate_result(result: dict[str, Any]) -> None:
 def _markdown(result: dict[str, Any]) -> str:
     config = result["config"]
     candidates = result["summary"]["candidates"]
+    reverse_distances = [
+        float(record["pixel_frechet"])
+        for record in result["records"]
+        if record["candidate"] == "time-reverse"
+    ]
+    reverse_min = min(reverse_distances)
+    reverse_max = max(reverse_distances)
     lines = [
         "# PhysGauge v1 calibration evidence",
         "",
@@ -98,8 +107,12 @@ def _markdown(result: dict[str, Any]) -> str:
         "benchmarks and human studies.",
         "",
         "`pixel_frechet` is an intentionally dependency-light Fréchet distance over tiny pixel "
-        "features. It is not Inception FID or FVD. Its exact blindness to a time-reversed frame "
-        "set demonstrates the consequence of discarding temporal order.",
+        "features. It is not Inception FID or FVD. The `time-reverse` candidate reverses the state "
+        "sequence without negating velocities (a frame-order reversal, not a physical time "
+        "reversal); its empirical feature distributions are identical by construction, so computed "
+        f"distances range from {reverse_min:.3g} to {reverse_max:.3g}, below the "
+        f"`{config['exact_miss_tolerance']:.0e}` exact-miss tolerance — a direct "
+        "consequence of discarding temporal order. See docs/ERRATA.md.",
         "",
     ]
     return "\n".join(lines)
@@ -206,6 +219,19 @@ def verify_bundle(bundle_dir: str | Path) -> dict[str, Any]:
     if not manifest_path.is_file():
         raise ValueError(f"missing manifest: {manifest_path}")
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    if not isinstance(manifest, dict):
+        raise ValueError("manifest must be a JSON object")
+    if manifest.get("schema_version") != "1.0":
+        raise ValueError("unsupported manifest schema")
+    artifacts = manifest.get("artifacts")
+    if not isinstance(artifacts, dict):
+        raise ValueError("manifest artifacts must be a JSON object")
+    artifact_names = set(artifacts)
+    if artifact_names != set(ARTIFACT_NAMES):
+        raise ValueError(
+            f"manifest artifact set mismatch: expected {sorted(ARTIFACT_NAMES)}, "
+            f"found {sorted(artifact_names)}"
+        )
     expected_files = {*ARTIFACT_NAMES, "manifest.json"}
     actual_files = {path.name for path in directory.iterdir() if path.is_file()}
     if actual_files != expected_files:
@@ -217,7 +243,7 @@ def verify_bundle(bundle_dir: str | Path) -> dict[str, Any]:
         path = directory / name
         if not path.is_file():
             raise ValueError(f"missing artifact: {path}")
-        expected = manifest.get("artifacts", {}).get(name)
+        expected = artifacts.get(name)
         actual = _sha256(path)
         if actual != expected:
             raise ValueError(f"hash mismatch for {name}")

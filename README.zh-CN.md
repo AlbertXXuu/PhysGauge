@@ -1,6 +1,8 @@
 # PhysGauge
 
-[English](README.md) · [协议说明](docs/protocol.md) · [v1 证据](docs/evidence/v1.0.0/report.md)
+[English](README.md) · [协议说明](docs/protocol.md) · [勘误](docs/ERRATA.md) ·
+[路线图](docs/ROADMAP.md) · [R2 实验协议](docs/r2-protocol.md) ·
+[v1 证据](docs/evidence/v1.0.0/report.md)
 
 PhysGauge 是一个本地、确定性的视频评测指标压力测试工具。它在经过解析验证的二维双圆盘
 碰撞世界中注入已知错误，再检查评测指标是否发现错误，以及错误变严重时指标是否单调响应。
@@ -12,8 +14,9 @@ PhysGauge 是一个本地、确定性的视频评测指标压力测试工具。�
 - 24 个固定种子的 oracle 轨迹全部守恒能量和动量，并且都发生可观测碰撞。
 - 状态真值指标能抓住所有注入的能量、动量、碰撞事件、初始条件和随机状态错误。
 - MSE、SSIM error、Pixel Fréchet 和时序梯度 MSE 对非弹性与动量扰动的三级强度均单调响应。
-- 不保留帧顺序的 Pixel Fréchet 存在严格盲点：整段时间反转时距离近似为零，但初始条件和
-  动力学已经错误。
+- 不保留帧顺序的 Pixel Fréchet 存在帧顺序盲点：只倒序状态序列而不反转速度时
+  （这是帧顺序反转，不是物理时间反演），计算距离为 0 至约 `5.76e-15`，但运动学残差很大。
+  具体含义与适用边界见[勘误](docs/ERRATA.md)。
 
 这些结论由测试和带 SHA-256 校验的
 [`v1.0.0` 证据包](docs/evidence/v1.0.0/manifest.json)共同约束。它们不代表所有视觉指标或公开

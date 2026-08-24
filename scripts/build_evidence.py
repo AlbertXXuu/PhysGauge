@@ -1,4 +1,4 @@
-"""Build or reproduce the frozen PhysGauge v1 evidence bundle."""
+"""Build the PhysGauge v1 bundle or reproduce its complete scientific result."""
 
 from __future__ import annotations
 
@@ -20,41 +20,35 @@ from physgauge.report import verify_bundle, write_bundle  # noqa: E402
 DEFAULT_OUTPUT = ROOT / "docs" / "evidence" / "v1.0.0"
 
 
-def _assert_reproduced(expected: dict[str, Any], actual: dict[str, Any]) -> None:
-    for key in ("schema_version", "protocol_id", "config"):
-        if expected[key] != actual[key]:
-            raise ValueError(f"reproduction mismatch in {key}")
-    expected_summary, actual_summary = expected["summary"], actual["summary"]
-    for key in (
-        "candidate_count",
-        "record_count",
-        "all_oracles_validated",
-        "all_expected_violations_detected",
-    ):
-        if expected_summary[key] != actual_summary[key]:
-            raise ValueError(f"reproduction mismatch in summary.{key}")
-    for name, expected_candidate in expected_summary["candidates"].items():
-        actual_candidate = actual_summary["candidates"][name]
-        if (
-            expected_candidate["family"] != actual_candidate["family"]
-            or expected_candidate["expected_violation"]
-            != actual_candidate["expected_violation"]
+def _assert_reproduced(expected: Any, actual: Any, path: str = "result") -> None:
+    """Compare the full result while tolerating cross-platform floating-point noise."""
+
+    if isinstance(expected, dict):
+        if not isinstance(actual, dict) or set(expected) != set(actual):
+            raise ValueError(f"reproduction key mismatch at {path}")
+        for key in expected:
+            _assert_reproduced(expected[key], actual[key], f"{path}.{key}")
+        return
+    if isinstance(expected, list | tuple):
+        if not isinstance(actual, list | tuple) or len(expected) != len(actual):
+            raise ValueError(f"reproduction length mismatch at {path}")
+        for index, (expected_item, actual_item) in enumerate(
+            zip(expected, actual, strict=True)
         ):
-            raise ValueError(f"candidate metadata mismatch: {name}")
-        for group in (
-            "mean_metrics",
-            "low_sensitivity_rate",
-            "exact_miss_rate",
-        ):
-            keys = sorted(expected_candidate[group])
-            if keys != sorted(actual_candidate[group]):
-                raise ValueError(f"metric key mismatch: {name}.{group}")
-            np.testing.assert_allclose(
-                [expected_candidate[group][key] for key in keys],
-                [actual_candidate[group][key] for key in keys],
-                rtol=1e-8,
-                atol=1e-10,
-            )
+            _assert_reproduced(expected_item, actual_item, f"{path}[{index}]")
+        return
+    if isinstance(expected, bool | str) or expected is None:
+        if expected != actual:
+            raise ValueError(f"reproduction value mismatch at {path}")
+        return
+    if isinstance(expected, int | float):
+        try:
+            np.testing.assert_allclose(expected, actual, rtol=1e-8, atol=1e-10)
+        except AssertionError as exc:
+            raise ValueError(f"reproduction numeric mismatch at {path}") from exc
+        return
+    if expected != actual:
+        raise ValueError(f"reproduction value mismatch at {path}")
 
 
 def main() -> int:

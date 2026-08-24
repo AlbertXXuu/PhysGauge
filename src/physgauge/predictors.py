@@ -46,6 +46,14 @@ def _collision_dropout(cfg: WorldConfig, seed: int) -> np.ndarray:
 
 
 def _time_reverse(cfg: WorldConfig, seed: int) -> np.ndarray:
+    """Frame-order reversal, NOT a physical time reversal.
+
+    Reverses the state sequence without negating velocities, so the recorded
+    velocity contradicts the finite-difference position motion (the kinematic
+    residual check detects exactly this). The machine ID `time-reverse` is a
+    legacy identifier preserved for schema/evidence compatibility; the
+    scientific meaning is frame-order reversal. See docs/ERRATA.md.
+    """
     del seed
     return simulate(cfg)[::-1].copy()
 
