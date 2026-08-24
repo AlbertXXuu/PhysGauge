@@ -281,6 +281,7 @@ body{line-height:1.62}.hero h1{overflow:visible;line-height:1.02}.hero h1 em{mar
 .matrix-cell.value.v0{--value:0}.matrix-cell.value.v1{--value:.1}.matrix-cell.value.v2{--value:.2}.matrix-cell.value.v3{--value:.3}.matrix-cell.value.v4{--value:.4}.matrix-cell.value.v5{--value:.5}.matrix-cell.value.v6{--value:.6}.matrix-cell.value.v7{--value:.7}.matrix-cell.value.v8{--value:.8}.matrix-cell.value.v9{--value:.9}.matrix-cell.value.v10{--value:1}
 @media(max-width:930px){.site-header nav{display:flex}.local-badge{display:none}}
 @media(max-width:560px){.site-header{flex-wrap:wrap;padding:10px 12px}.brand-link{width:112px}.site-header nav{order:3;width:100%;justify-content:center;margin:0}.nav-button{padding:8px 10px;font-size:.66rem}.view-panel{scroll-margin-top:150px}}
+body{background:radial-gradient(circle at 12% 5%,rgb(147 197 253 / 42%),transparent 34%),radial-gradient(circle at 84% 7%,rgb(167 139 250 / 28%),transparent 36%),radial-gradient(circle at 68% 88%,rgb(79 70 229 / 14%),transparent 38%),linear-gradient(145deg,#fbfdff 0%,#f1f7ff 49%,#e7f1ff 100%);background-attachment:fixed}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.liquid-button,.liquid-button::before,.nav-button{transition:none}}
 """
 

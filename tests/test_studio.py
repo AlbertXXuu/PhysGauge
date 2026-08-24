@@ -57,6 +57,10 @@ class StudioTests(unittest.TestCase):
         self.assertIn('id="smoke-cases"', INDEX_HTML)
         self.assertIn('id="smoke-seed"', INDEX_HTML)
         self.assertIn("line-height:1.02", STUDIO_CSS)
+        self.assertIn(
+            "radial-gradient(circle at 12% 5%,rgb(147 197 253 / 42%),transparent 34%)",
+            STUDIO_CSS,
+        )
         self.assertIn("scroll-margin-top:112px", STUDIO_CSS)
         self.assertIn("matrix-cell value v${band}", STUDIO_JS)
         self.assertNotIn('style="--value:', STUDIO_JS)
