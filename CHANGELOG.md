@@ -15,6 +15,7 @@ All notable changes are documented here. The format follows
   visual v1 calibration, an explicitly bounded learned-model study, and a fresh smoke-check control.
 - Bundled integrity-checked AlvenX masters, Instrument Sans, and a compact evidence fallback so the
   Studio remains functional from an installed wheel.
+- Replaced the split README heading with one outlined `AlvenX — Physics Evidence` project lockup.
 
 ### Research result
 

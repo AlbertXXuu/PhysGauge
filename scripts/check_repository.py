@@ -78,6 +78,22 @@ def main() -> int:
     if re.search(r"all .*leaderboard|every .*metric fails", readme, flags=re.IGNORECASE):
         errors.append("README contains an unsupported universal claim")
 
+    lockup = (ROOT / "docs/assets/alvenx-wordmark.svg").read_text(encoding="utf-8")
+    for fragment in (
+        'viewBox="0 0 430 150"',
+        "AlvenX — Physics Evidence",
+        'id="tag-P"',
+        'id="tag-H"',
+        'id="tag-S"',
+        'transform="translate(43.128 126) scale(.018 -.018)"',
+    ):
+        if fragment not in lockup:
+            errors.append(f"README project lockup is missing: {fragment}")
+    for relative in ("README.md", "README.zh-CN.md"):
+        source = (ROOT / relative).read_text(encoding="utf-8")
+        if "<strong>PHYSICS EVIDENCE</strong>" in source:
+            errors.append(f"{relative} must use the single-SVG project lockup")
+
     evidence = ROOT / "docs" / "evidence" / "v1.0.0"
     if evidence.is_dir():
         try:
