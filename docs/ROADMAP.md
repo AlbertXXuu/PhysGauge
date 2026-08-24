@@ -11,8 +11,9 @@
 |---|---|---|
 | **Software v1** | 校准工具软件发布：24 cases、severity sweep、hash 验证 evidence、CLI/稳定 API、测试全绿 | ✅ **完成** |
 | **R1** | theoretical clarification：精确表述"逐帧排列不变距离"的能力边界 | ✅ **完成** |
-| **R2.0** | 在训练前精确定义并冻结 learned-model 实验协议 | ✅ **完成** |
-| **R2.1–R2.2** | learned-model implementation + validation | ⬜ 未开始 |
+| **R2.0** | 冻结 learned-model 实验协议 v2 与目标误差带 | ✅ **完成** |
+| **R2.1a** | 三基线 dry-run 验证完整判定管线 | ✅ **完成** |
+| **R2.1b–R2.2** | learned-model implementation + validation | ⬜ 未开始 |
 | **R3** | paper decision gate：据 R2 结果决定写论文 / 扩展场景 / 停止 | ⬜ 未开始 |
 | 采用信号 | 记录真实使用与非作者反馈，不把单条反馈等同于市场需求 | ⬜ 尚无信号 |
 
@@ -77,15 +78,15 @@
 
 ## 2. R2 — learned-model validation
 
-**R2.0 已完成：实验协议（`docs/r2-protocol.md`）已在训练前冻结。** 它精确定义了数据清单、
-无泄漏规则、模型接口、自回归 rollout、三个训练种子、三种基线、逐指标分歧判定与
-continue / expand / stop 决策门。后续实现若改变这些定义，必须先记录协议修订，不能根据
-观察到的结果倒推阈值。
+**R2.0/R2.1a 已完成：实验协议 v2（`docs/r2-protocol.md`）已在训练前冻结，三基线 dry-run
+通过。** 协议使用 128 个训练碰撞配置与 `32×32` MLP，不删除碰撞、不引入 OOD；它精确定义
+了目标误差带、单 case → 测试集 → 跨 seed 的聚合口径及 continue / expand / stop 决策门。
+后续实现不能根据 test 结果改变模型、样本数或阈值。
 
 ### 2.1 第一步不是视频模型，是小型 learned dynamics predictor
 
-- 用**同一个两球世界**训练一个小型 learned dynamics predictor，以状态与圆盘半径为输入，
-  直接预测八维状态增量；步长在本协议固定，评估时从真实初始状态进行自回归 rollout。
+- 用**同一个两球世界**的 128 个碰撞配置训练 `32×32` learned dynamics predictor，以状态
+  与圆盘半径为输入，直接预测八维状态增量；评估时从真实初始状态自回归 rollout。
 - **为什么先做这个**：视频模型只输出像素，所谓 adapter 实际包含圆盘检测、身份保持、
   遮挡处理、位置跟踪、速度估计、坐标与时间标定——会把视觉跟踪误差和模型误差混在一起。
   先做直接输出状态的模型，隔离"模型学习误差"这**单一变量**，验证 PhysGauge 能否发现
@@ -136,8 +137,9 @@ continue / expand / stop 决策门。后续实现若改变这些定义，必须�
 | R1.1 | 勘误 | 新增 docs/ERRATA.md + 保留 time-reverse ID | ✅ |
 | R1.2 | 命题 | 写清 permutation-invariance 能力边界（1.2 表格） | ✅ |
 | R1.3 | 措辞 | report.py 动态输出 identical-by-construction 数值范围 | ✅ |
-| R2.0 | 协议 | 冻结 R2 实验协议（docs/r2-protocol.md） | ✅ |
-| R2.1 | 训练 | learned dynamics predictor 输出八维状态 | ⬜ |
+| R2.0 | 协议 | 冻结 R2 v2 协议、容量、数据与目标误差带 | ✅ |
+| R2.1a | 基线 | oracle / persistence / linear dry-run 通过 | ✅ |
+| R2.1b | 训练 | learned dynamics predictor 输出八维状态 | ⬜ |
 | R2.2 | 验证 | PhysGauge 发现真实学习误差（或诚实记录未发现） | ⬜ |
 | R3 | 决策 | 写论文/扩展/停止 三选一 + 理由 | ⬜ |
 | 采用 | 信号 | 非作者反馈（有则记，不硬性） | ⬜ |

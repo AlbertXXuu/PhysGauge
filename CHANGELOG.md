@@ -7,7 +7,8 @@ All notable changes are documented here. The format follows
 
 ### Added
 
-- Frozen, pre-training R2 learned-dynamics validation protocol and milestone tracking.
+- Frozen the pre-training R2 learned-dynamics validation protocol v2, including a small-data/
+  small-capacity model, aggregate decision rules, target error band, and baseline dry-run.
 
 ### Fixed
 

@@ -1,9 +1,10 @@
 # R2 实验协议：learned-dynamics validation
 
-协议 ID：`physgauge-learned-dynamics-r2-v1`
+协议 ID：`physgauge-learned-dynamics-r2-v2`
 
-状态：**已冻结，尚未训练。** 本文件在模型实现和结果产生前固定。观察结果后若改变数据、
-模型、阈值或决策门，必须升级协议 ID、说明偏离原因并保留原结果，不能静默覆盖。
+状态：**已冻结，尚未训练 learned model。** v1 在提交 `727cd04` 留档；三基线 dry-run 后，
+v2 在未观察任何 learned-model 结果的前提下缩小训练集与模型容量，并增加目标误差带。以后若
+改变数据、模型、阈值或决策门，必须升级协议 ID、说明偏离原因并保留原结果，不能静默覆盖。
 
 ## 0. 研究问题与边界
 
@@ -15,6 +16,8 @@ PhysGauge 状态检查能发现、但某个视觉指标相对不敏感的误差�
   坐标标定误差。
 - 所有数据来自当前 `make_case` 分布。这是**同分布未见配置（IID holdout）**，不是 OOD
   泛化实验，也不能外推到真实视频或其他物理系统。
+- 弱化杠杆只用**少样本 + 小容量**。不删除碰撞样本，也不引入角度、速度或半径的 OOD
+  区间，避免把人为缺失机制或分布移位误写成 learned dynamics 的自然泛化误差。
 - R2 验证的是 learned-model 用例，不重新定义已经发布的 Software v1。
 
 ## 1. 冻结数据清单
@@ -23,7 +26,7 @@ PhysGauge 状态检查能发现、但某个视觉指标相对不敏感的误差�
 
 | split | `base_seed` | `case_index` | 配置数 | 用途 |
 |---|---:|---:|---:|---|
-| train | `20260825` | `0..1023` | 1024 | 参数拟合与归一化统计 |
+| train | `20260825` | `0..127` | 128 | 参数拟合与归一化统计 |
 | validation | `20260826` | `0..127` | 128 | 早停与 checkpoint 选择 |
 | test | `20260827` | `0..255` | 256 | 一次性最终评估 |
 
@@ -46,7 +49,7 @@ PhysGauge 状态检查能发现、但某个视觉指标相对不敏感的误差�
   `dt=0.001`、世界边界与质量在本协议中固定，因此不作为可变输入。
 - 输出：八维增量 `Δs_t`，下一状态为 `s_t + Δs_t`。
 - 归一化：对输入和目标增量分别使用 train split 的逐维均值/标准差；标准差为零时用 1。
-- 模型：`Linear(9,128) → SiLU → Linear(128,128) → SiLU → Linear(128,8)`，float32。
+- 模型：`Linear(9,32) → SiLU → Linear(32,32) → SiLU → Linear(32,8)`，float32。
 - loss：标准化增量的 MSE，collision-window 与 free-motion 各占 50%。
 - 优化器：AdamW，learning rate `1e-3`，weight decay `1e-5`，batch size `256`。
 - 训练：最多 200 epochs；validation 加权 loss 连续 20 epochs 没有至少 `1e-6` 的改善则
@@ -54,6 +57,9 @@ PhysGauge 状态检查能发现、但某个视觉指标相对不敏感的误差�
 - 模型随机种子：`11`、`29`、`47`。每个种子控制初始化与 batch 顺序；启用框架可用的
   deterministic 模式并记录框架、依赖、CPU/GPU 与运行时间。
 - 不做架构或超参数搜索。只有确认实现错误时允许修复后重跑，并在结果中保留错误及修复记录。
+
+这组配置的目的不是保证产生正结果，而是让模型见过并学习碰撞，同时保留有限容量/有限样本
+带来的自然逼近误差。不能在查看 test 结果后扩大模型、改变样本数或追加 OOD 来追逐目标误差。
 
 ## 3. 自回归评估合同
 
@@ -66,8 +72,9 @@ PhysGauge 状态检查能发现、但某个视觉指标相对不敏感的误差�
 5. 使用同一 `WorldConfig` 把完整预测与 oracle 各渲染 48 帧，再调用
    `evaluate_trajectory`。
 
-统计单位是**配置**，不是帧。每个训练种子分别报告 256 个配置的结果，再报告三种子的
-均值与标准差；比例同时给出以配置为单位的 95% Wilson 区间。
+统计单位是**配置**，不是帧。先在单个 case 上计算状态失败与逐视觉指标分歧，再在 256 个
+test cases 上聚合比例；单个 case 永远不构成研究支持。每个训练种子分别报告聚合结果，再
+报告三种子的均值与标准差；比例同时给出以配置为单位的 95% Wilson 区间。
 
 ## 4. 三个固定基线
 
@@ -81,6 +88,20 @@ PhysGauge 状态检查能发现、但某个视觉指标相对不敏感的误差�
 每个 case 的视觉 low-sensitivity 分母使用与 v1 相同分布的确定性 random trajectory：随机
 种子为 `20260827 + case_index * 1009 + 9`，位置在合法边界内均匀采样，四个速度分量在
 `[-1,1]` 均匀采样。实现必须用独立 RNG，不得消费训练 RNG 状态。
+
+### 4.1 训练前 dry-run（已完成）
+
+在 commit `727cd04` 的实现上，用冻结 test split 的 256 个配置和第 5 节阈值运行完整管线：
+
+| baseline | state failure | collision accuracy | MSE disagreement | SSIM disagreement | Pixel Fréchet disagreement | temporal-gradient disagreement |
+|---|---:|---:|---:|---:|---:|---:|
+| analytic-oracle | 0% | 100% | 0% | 0% | 0% | 0% |
+| persistence | 100% | 0% | 0% | 0% | 100% | 100% |
+| linear-extrapolation | 100% | 0% | 0% | 0% | 100% | 100% |
+
+dry-run 验收为：oracle 无状态失败；两个弱基线均有状态失败，且至少一个预先列出的视觉指标
+达到 `disagreement_rate >= 5%`。结果通过。它同时表明不同视觉指标的行为确实不同，不能
+要求四个指标全部“放过”。正式 R2 evidence 必须重跑并记录三基线，不能只引用本表。
 
 ## 5. 预定义判定
 
@@ -111,25 +132,46 @@ disagreement_m = state_failure and visual_low_sensitivity_m
 ```
 
 四个指标必须逐项报告，不能用“任一指标”合并后挑选最好看的结果。另行报告
-`metric_m <= 1e-10` 的 exact miss，但决策门使用上面的 low-sensitivity 定义。
+`metric_m <= 1e-10` 的 exact miss，但决策门使用上面的 low-sensitivity 定义。研究支持看
+测试集聚合率与跨 seed 一致性；“至少一个 case 出现分歧”只能作为样例，不能触发 continue。
+
+### 5.3 目标误差带（不改变 state-failure 定义）
+
+为判断 learned model 是“见过并部分学会碰撞”而不是 collision-dropout 或近似 oracle，另算：
+
+```text
+j = first_contact_index(oracle, cfg)
+post_contact_position_rmse = RMSE(predicted_position[j:], oracle_position[j:])
+partial_error = post_contact_position_rmse > 0.02
+```
+
+目标误差带要求至少 2/3 个训练种子同时满足：
+
+- test collision-event accuracy `>= 75%`；以及
+- `partial_error` 占 test cases 的 `10%..70%`（含端点）。
+
+`0.02` 相当于单位世界宽度的 2%，用于区分碰撞后可观察的连续轨迹偏差；它不是新增的 v1
+physics-failure 阈值。该误差带只判断本次 learned model 是否适合回答 R2，不参与挑选 case。
 
 ## 6. 有效性与决策门
 
 先依次执行，前一门未通过时不得解释后一门：
 
-1. **实验有效性**：split 清单互斥且哈希可复核；analytic-oracle 全部通过；无数据泄漏、
-   非有限输出或初态违约；实现测试与结果包校验通过。失败则修实现，不解释研究结果。
-2. **模型充分性**：至少 2/3 个训练种子的 test median `position_rmse` **和** median
-   `velocity_rmse` 都低于 linear-extrapolation。否则标记 R2 `inconclusive-model`；只允许一次
-   有记录的实现审计/修复，不把“模型没学会”当成 PhysGauge 的正面证据。
-3. **continue → R3**：模型充分，且同一个预先列出的视觉指标在至少 2/3 个训练种子上有
-   `disagreement_rate >= 5%`（256 cases 中至少 13 个）。这只是进入 R3 论文决策的工程门，
-   不是统计显著性或论文结论。
-4. **expand**：未达到 continue，但至少 2/3 个种子同时满足 test P95
-   `position_rmse <= 0.01`、P95 `velocity_rmse <= 0.05`、碰撞事件正确率 `>=99%`。此时记录
-   “当前世界对该模型过易”，再由 R3 决定是否扩展；不得自动开新场景。
-5. **stop-current-line**：模型充分但既不满足 continue 也不满足 expand。诚实记录“本次
-   learned predictor 未观察到预注册分歧”，停止对这一模型追加调参；这不证明工具普遍无效。
+1. **实验有效性**：split 清单互斥且哈希可复核；第 4.1 节 dry-run 重现；analytic-oracle
+   全部通过；无数据泄漏、非有限输出或初态违约；实现测试与结果包校验通过。失败则修实现，
+   不解释研究结果。
+2. **模型确实学到碰撞**：至少 2/3 个训练种子的 test median `position_rmse` **和** median
+   `velocity_rmse` 都低于 linear-extrapolation，且 collision-event accuracy `>=75%`。
+3. **误差带分类**（至少 2/3 seeds 一致）：`partial_error <10%` 为 `too-strong`；
+   `10%..70%` 为 `target-band`；`>70%` 或第 2 门失败为 `too-weak`；无 2/3 一致分类则为
+   `seed-unstable`。`too-weak`/`seed-unstable` 均记作 R2 `inconclusive-model`，不能当正证据。
+4. **continue → R3**：模型处于 `target-band`，且同一个预先列出的视觉指标在至少 2/3 个
+   训练种子上有 `disagreement_rate >= 5%`（256 cases 中至少 13 个）。这只是进入 R3 论文
+   决策的工程门，不是统计显著性或论文结论。
+5. **expand**：模型为 `too-strong`，说明当前场景/配置对它过易；只记录分支并交给 R3，
+   不得在本次 R2 内追加 OOD 或新物理。
+6. **stop-current-line**：模型处于 `target-band` 但没有任何同一视觉指标满足 continue。
+   诚实记录“本次 learned predictor 未观察到预注册分歧”，停止追加调参；这不证明工具普遍无效。
 
 采用信号与市场需求是独立维度，不作为 R2 实验结果的替代或否决条件。
 
