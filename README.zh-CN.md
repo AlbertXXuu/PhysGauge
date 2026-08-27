@@ -40,6 +40,9 @@ PhysGauge 是一个本地、确定性的视频评测指标压力测试工具。�
 支持 Python 3.11–3.13。
 
 ```powershell
+git clone --branch v1.0.0 --depth 1 https://github.com/AlbertXXuu/PhysGauge.git
+cd PhysGauge
+
 python -m venv .venv
 .venv\Scripts\Activate.ps1
 python -m pip install -e .
