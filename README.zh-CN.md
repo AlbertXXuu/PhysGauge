@@ -11,7 +11,7 @@
 PhysGauge 是一个本地、确定性的视频评测指标压力测试工具。它在经过解析验证的二维双圆盘
 碰撞世界中注入已知错误，再检查评测指标是否发现错误，以及错误变严重时指标是否单调响应。
 
-它是**指标校准工具**，不是另一个世界模型排行榜。
+它在指标用于解释模型输出前，先用受控物理违例校准指标的响应。
 
 ## v1 已经证明什么
 
@@ -23,17 +23,17 @@ PhysGauge 是一个本地、确定性的视频评测指标压力测试工具。�
   具体含义与适用边界见[勘误](docs/ERRATA.md)。
 
 这些结论由测试和带 SHA-256 校验的
-[`v1.0.0` 证据包](docs/evidence/v1.0.0/manifest.json)共同约束。它们不代表所有视觉指标或公开
-排行榜都会失败，也不是对真实世界模型的评测结果。
+[`v1.0.0` 证据包](docs/evidence/v1.0.0/manifest.json)共同约束，适用于冻结的合成碰撞协议及其
+包含的指标；学习模型结果单独报告。
 
 ## 学习模型研究结果
 
 预注册的研究里程碑 R2 实验在 oracle / persistence / linear 管线 dry-run 通过后，训练并评估了三个小型
 状态动力学预测器。三个种子都被分类为 `too-weak`：碰撞后 partial-error 比例为
 91.8%–99.6%，因此冻结结果是 `inconclusive-model`。部分视觉指标虽出现分歧，但模型能力门
-先失败，不能把这些数值解释为 learned-model 视觉盲点的证据。详见
+先失败，因此预注册解释保持为 `inconclusive-model`。详见
 [学习模型报告](docs/evidence/r2/report.md)和[实验协议](docs/r2-protocol.md)。这里的 `R2` 是
-**研究里程碑 2**，不是 PhysGauge 2.0。
+**研究里程碑 2**。
 
 ## 快速开始
 
@@ -50,8 +50,8 @@ physgauge run --output runs\my-calibration
 physgauge verify --bundle docs\evidence\v1.0.0
 ```
 
-一次运行会输出完整 JSON、扁平 CSV、Markdown 报告、SVG 灵敏度矩阵和 SHA-256 清单。
-不需要 API Key、网络、GPU、模型权重或训练。
+一次运行使用确定性 CPU 碰撞套件，输出完整 JSON、扁平 CSV、Markdown 报告、SVG 灵敏度
+矩阵和 SHA-256 清单。
 
 ## Python API
 
@@ -68,8 +68,8 @@ write_bundle(result, "runs/example")
 ## 项目边界
 
 - v1 只覆盖等质量、二维刚性圆盘碰撞。
-- `pixel_frechet` 使用低维灰度像素特征，不是 Inception FID 或 FVD。
+- `pixel_frechet` 使用独立的低维灰度像素特征空间，与 Inception FID 和 FVD 区分。
 - 物理定律诊断依赖状态真值；只有视频帧时只能使用视觉指标，不能获得逐定律保证。
-- 随机基线只用于标定尺度，不代表任何真实模型。
+- 随机基线为当前指标响应提供尺度参考。
 
 Apache-2.0 许可证。PhysGauge 是 [AlvenX](https://alvenx.com) 开源项目。

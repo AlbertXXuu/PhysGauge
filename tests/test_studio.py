@@ -52,6 +52,8 @@ class StudioTests(unittest.TestCase):
         self.assertIn("cubic-bezier(.22,1,.36,1)", STUDIO_CSS)
         self.assertIn('id="run-smoke"', INDEX_HTML)
         self.assertIn('aria-live="polite"', INDEX_HTML)
+        self.assertIn("Calibrate a metric", INDEX_HTML)
+        self.assertIn("4 seeded cases", INDEX_HTML)
         self.assertNotIn("R2", INDEX_HTML.split("Technical protocol identifier")[0])
         self.assertIn('role="tablist"', INDEX_HTML)
         self.assertIn('id="smoke-cases"', INDEX_HTML)
@@ -82,7 +84,7 @@ class StudioTests(unittest.TestCase):
         try:
             with urlopen(f"{base}/", timeout=3) as response:  # noqa: S310 - loopback test
                 self.assertEqual(response.status, 200)
-                self.assertIn(b"Test a metric", response.read())
+                self.assertIn(b"Calibrate a metric", response.read())
             with urlopen(f"{base}/api/evidence", timeout=3) as response:  # noqa: S310
                 payload = json.load(response)
                 self.assertEqual(payload["calibration"]["caseCount"], 24)

@@ -177,14 +177,14 @@ INDEX_HTML = """<!doctype html>
         <button class="nav-button" id="learned-tab" type="button" role="tab"
           aria-controls="learned-view" aria-selected="false" data-view="learned">Learned-model study</button>
       </nav>
-      <span class="local-badge"><i aria-hidden="true"></i>Local only</span>
+      <span class="local-badge"><i aria-hidden="true"></i>v1.0.0</span>
     </header>
 
     <main id="top">
       <section class="hero">
         <div class="hero-copy">
           <p class="eyebrow"><span></span>PHYSICS EVIDENCE · METRIC CALIBRATION</p>
-          <h1>Test a metric<br><em>before trusting it.</em></h1>
+          <h1>Calibrate a metric<br><em>against known violations.</em></h1>
           <p class="lede">Inject known violations into an analytically verified collision world,
             compare visual similarity with state-grounded checks, and expose the cases a metric
             treats as harmless.</p>
@@ -205,7 +205,7 @@ INDEX_HTML = """<!doctype html>
             <button class="text-button" type="button" data-view="learned">Open learned-model study ↓</button>
           </div>
           <p class="run-status" id="run-status" role="status" aria-live="polite">
-            CPU only · no API key · no model download · no evidence files changed
+            4 seeded cases · 40 candidate trajectories · in-memory result
           </p>
         </div>
         <aside class="hero-visual" aria-label="Two particles approach, collide, and separate while visual and physical checks are compared">
@@ -215,7 +215,7 @@ INDEX_HTML = """<!doctype html>
             <i class="disc blue"></i><i class="disc violet"></i><b class="contact"></b>
           </div>
           <div class="visual-scale"><span>looks similar</span><i></i><span>obeys physics</span></div>
-          <p class="visual-explainer">The frames can look close while the trajectory breaks the collision law.</p>
+          <p class="visual-explainer">A visually similar trajectory can still violate the collision law.</p>
         </aside>
       </section>
 
@@ -232,7 +232,7 @@ INDEX_HTML = """<!doctype html>
           <article><strong id="metric-oracles">—</strong><span>oracle contracts</span></article>
         </div>
         <div class="matrix-wrap">
-          <header><div><p class="eyebrow">LOW-SENSITIVITY MATRIX</p><h3>When physics fails but a visual metric barely reacts.</h3></div><span id="calibration-source">Committed v1 evidence</span></header>
+          <header><div><p class="eyebrow">SENSITIVITY MATRIX</p><h3>Visual response across injected physical violations.</h3></div><span id="calibration-source">Committed v1 evidence</span></header>
           <div class="matrix" id="sensitivity-matrix"><p>Loading evidence…</p></div>
         </div>
       </section>
@@ -240,15 +240,15 @@ INDEX_HTML = """<!doctype html>
       <section class="view-panel" id="learned-view" data-panel="learned"
         role="tabpanel" aria-labelledby="learned-tab" tabindex="-1" hidden>
         <header class="section-heading">
-          <div><p class="eyebrow">LEARNED-MODEL STUDY</p><h2>An honest inconclusive result.</h2></div>
-          <span class="outcome-pill">Model capability gate failed</span>
+          <div><p class="eyebrow">LEARNED-MODEL STUDY</p><h2>Preregistered inconclusive result.</h2></div>
+          <span class="outcome-pill">Capability classification · too-weak</span>
         </header>
         <div class="study-summary">
           <article class="study-callout">
             <span>RESULT</span><strong id="study-outcome">Inconclusive</strong>
-            <p>All predictors saw collisions in training, but none generalized inside the
-              preregistered target-error band. Visual disagreements are therefore not promoted
-              to a learned-model blind-spot claim.</p>
+            <p>All predictors saw collisions in training, and their partial-error rates fell outside
+              the preregistered target band. The outcome remains inconclusive-model, with visual disagreements
+              reported as diagnostics.</p>
           </article>
           <div class="study-metrics">
             <article><span>Mean partial-error rate</span><strong id="study-error">—</strong></article>

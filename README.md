@@ -13,7 +13,8 @@ PhysGauge is a local, deterministic stress-test suite for video evaluation metri
 known violations into an analytically verified two-disc collision world, then measures whether an
 evaluation metric notices the error and responds monotonically as the violation becomes stronger.
 
-It is a **metric calibration tool**, not another world-model leaderboard.
+It calibrates video metrics against controlled physical violations before those metrics are used
+to interpret model outputs.
 
 ## What the v1 evidence establishes
 
@@ -28,8 +29,8 @@ It is a **metric calibration tool**, not another world-model leaderboard.
   See [Errata](docs/ERRATA.md).
 
 These statements are checked by tests and by the committed, hash-verified
-[`v1.0.0` evidence bundle](docs/evidence/v1.0.0/manifest.json). They do **not** imply that every
-visual metric or public leaderboard fails, and they do not report results for a learned world model.
+[`v1.0.0` evidence bundle](docs/evidence/v1.0.0/manifest.json). The evidence applies to the frozen
+synthetic collision protocol and its included metrics; learned-model results are reported separately.
 
 ## Learned-model study result
 
@@ -37,9 +38,9 @@ The pre-registered research-milestone R2 experiment trained three small state-dy
 oracle/persistence/linear pipeline dry-run. All three predictors were classified as `too-weak`:
 their post-contact partial-error rates were 91.8%–99.6%, so the frozen outcome is
 `inconclusive-model`. Some visual metrics showed disagreements, but the model-capability gate failed
-first; those values are therefore **not** evidence for a learned-model blind spot. See the
+first; the preregistered interpretation therefore remains `inconclusive-model`. See the
 [learned-model report](docs/evidence/r2/report.md) and [protocol](docs/r2-protocol.md). Here, `R2`
-means **research milestone 2**, not PhysGauge version 2.
+identifies **research milestone 2**.
 
 ## Quick start
 
@@ -57,13 +58,12 @@ physgauge verify --bundle docs/evidence/v1.0.0
 physgauge studio
 ```
 
-The run command writes five reviewable files: full JSON records, flat CSV metrics, a Markdown report,
-an SVG sensitivity matrix, and a SHA-256 manifest. It needs no API key, network access, GPU, model
-weights, or training.
+The run command uses the deterministic CPU collision suite and writes five reviewable files: full
+JSON records, flat CSV metrics, a Markdown report, an SVG sensitivity matrix, and a SHA-256 manifest.
 
-`studio` opens a loopback-only visual interface in the AlvenX product design language. It explores
-the committed v1 calibration and the learned-model study without hiding the inconclusive capability
-gate, and it can run a four-case local smoke check from a liquid glass control. See
+`studio` opens a loopback visual interface in the AlvenX product design language. It presents the
+committed v1 calibration, the preregistered learned-model outcome, and a four-case local smoke check
+from one liquid glass control. See
 [Studio usage](docs/studio.md).
 
 ## Stable Python API
@@ -102,10 +102,9 @@ python -m build
 ## Scope and limits
 
 - v1 covers equal-mass, two-dimensional rigid-disc collision dynamics only.
-- `pixel_frechet` uses tiny grayscale pixel features. It is deliberately named to avoid confusion
-  with Inception FID or FVD.
+- `pixel_frechet` uses its own tiny grayscale pixel feature space, distinct from Inception FID and FVD.
 - State-grounded checks require simulator/model state; video-only outputs can use the visual metrics
   but cannot receive the law-specific guarantees.
-- The random baseline is a scale reference, not a claim about any learned model.
+- The random baseline provides a scale reference for the included metric responses.
 
 Apache-2.0 licensed. PhysGauge is an [AlvenX](https://alvenx.com) open-source project.
