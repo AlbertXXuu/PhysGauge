@@ -9,6 +9,10 @@
 [v1 evidence](docs/evidence/v1.0.0/report.md) ·
 [learned-model evidence](docs/evidence/r2/report.md)
 
+> Maintenance status: `v1.0.0` is the frozen public release. Current work focuses on
+> maintenance, reproduction, external validation, and preserving clearly separated research
+> results. See the [maintenance policy](docs/MAINTENANCE.md) and [portfolio evidence](PORTFOLIO.md).
+
 PhysGauge is a local, deterministic stress-test suite for video evaluation metrics. It injects
 known violations into an analytically verified two-disc collision world, then measures whether an
 evaluation metric notices the error and responds monotonically as the violation becomes stronger.

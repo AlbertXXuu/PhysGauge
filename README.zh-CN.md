@@ -8,6 +8,9 @@
 [路线图](docs/ROADMAP.md) · [学习模型实验协议（R2）](docs/r2-protocol.md) ·
 [v1 证据](docs/evidence/v1.0.0/report.md) · [学习模型证据](docs/evidence/r2/report.md)
 
+> 维护状态：`v1.0.0` 是冻结的公开正式版。当前工作聚焦维护、复现、外部验证，并保留与
+> 软件 v1 明确分离的研究结果。详见[维护政策](docs/MAINTENANCE.md)与[作品证据页](PORTFOLIO.md)。
+
 PhysGauge 是一个本地、确定性的视频评测指标压力测试工具。它在经过解析验证的二维双圆盘
 碰撞世界中注入已知错误，再检查评测指标是否发现错误，以及错误变严重时指标是否单调响应。
 
