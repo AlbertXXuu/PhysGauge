@@ -4,7 +4,7 @@
 
 # PhysGauge
 
-[简体中文](README.zh-CN.md) · [Protocol](docs/protocol.md) · [Errata](docs/ERRATA.md) ·
+[简体中文](README.zh-CN.md) · [Protocol](docs/protocol.md) · [Claims matrix](docs/research/claims-matrix.md) · [Errata](docs/ERRATA.md) ·
 [Roadmap](docs/ROADMAP.md) · [learned-model protocol (R2)](docs/r2-protocol.md) ·
 [v1 evidence](docs/evidence/v1.0.0/report.md) ·
 [learned-model evidence](docs/evidence/r2/report.md)

@@ -4,7 +4,7 @@
 
 # PhysGauge
 
-[English](README.md) · [协议说明](docs/protocol.md) · [勘误](docs/ERRATA.md) ·
+[English](README.md) · [协议说明](docs/protocol.md) · [结论矩阵](docs/research/claims-matrix.md) · [勘误](docs/ERRATA.md) ·
 [路线图](docs/ROADMAP.md) · [学习模型实验协议（R2）](docs/r2-protocol.md) ·
 [v1 证据](docs/evidence/v1.0.0/report.md) · [学习模型证据](docs/evidence/r2/report.md)
 
