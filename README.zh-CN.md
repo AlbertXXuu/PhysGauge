@@ -35,8 +35,8 @@ PhysGauge 是一个本地、确定性的视频评测指标压力测试工具。�
 状态动力学预测器。三个种子都被分类为 `too-weak`：碰撞后 partial-error 比例为
 91.8%–99.6%，因此冻结结果是 `inconclusive-model`。部分视觉指标虽出现分歧，但模型能力门
 先失败，因此预注册解释保持为 `inconclusive-model`。详见
-[学习模型报告](docs/evidence/r2/report.md)和[实验协议](docs/r2-protocol.md)。这里的 `R2` 是
-**研究里程碑 2**。
+[负结果说明](docs/research/negative-result-r2.md)、[学习模型报告](docs/evidence/r2/report.md)和
+[实验协议](docs/r2-protocol.md)。这里的 `R2` 是**研究里程碑 2**。
 
 ## 快速开始
 

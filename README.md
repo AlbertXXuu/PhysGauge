@@ -43,6 +43,7 @@ oracle/persistence/linear pipeline dry-run. All three predictors were classified
 their post-contact partial-error rates were 91.8%–99.6%, so the frozen outcome is
 `inconclusive-model`. Some visual metrics showed disagreements, but the model-capability gate failed
 first; the preregistered interpretation therefore remains `inconclusive-model`. See the
+[negative-result note](docs/research/negative-result-r2.md),
 [learned-model report](docs/evidence/r2/report.md) and [protocol](docs/r2-protocol.md). Here, `R2`
 identifies **research milestone 2**.
 
