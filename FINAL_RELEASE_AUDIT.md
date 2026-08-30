@@ -32,7 +32,7 @@ pull-request head passes the repository's GitHub Actions matrix on Ubuntu.
 | Source distribution | PASS | Built and installed in a new environment with dependencies; metadata and CLI both reported `1.1.0`. |
 | Wheel | PASS | Built and installed in a new environment; `pip check`, CLI identity, doctor, deterministic run, and frozen-bundle verification passed. |
 | Windows/local tests | PASS | `34` unittest tests passed. Ruff passed. |
-| Repository checker | PASS | Version `1.1.0` and `66` tracked files validated. |
+| Repository checker | PASS | Version `1.1.0` and `67` tracked files validated, including this audit record. |
 | Deterministic evidence paths | PASS | Fresh installed-package run produced `240` passing records and four hash-verified artifacts; frozen v1 verification passed `240` records and R2 verification passed its four artifacts. |
 | Linux CI | PENDING | Required on the complete `closure/v1.1.0` pull-request head before this audit may become PASS. |
 | README / README.zh-CN | PASS | Both are present, coherent with the `1.1.0` candidate identity, and preserve the frozen calibration/reproduction boundary. |
