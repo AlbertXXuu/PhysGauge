@@ -99,3 +99,10 @@ test. Software remains `1.1.0`; calibration evidence remains `v1.0.0`; R2 remain
 `inconclusive-model`; no package contract, candidate, metric, result, asset, protocol, or claim
 changed. This document's containing commit is the tag candidate and must pass every check on PR #3
 before it may become `main` or `v1.1.0`.
+
+## P11 post-publication quick-start correction
+
+The published `v1.1.0` README cloned `v1.0.0` and then invoked `studio`, although Studio was added
+after the frozen calibration tag. Following the no-tag-rewrite rule, `v1.1.1` changes only the
+clone target and current package/Studio/documentation identity. The immutable `v1.0.0` calibration
+objects and the closed R2 result remain unchanged.

@@ -9,10 +9,11 @@
 [v1 evidence](docs/evidence/v1.0.0/report.md) ·
 [learned-model evidence](docs/evidence/r2/report.md)
 
-> Version status: current software is the `v1.1.0` closure release. Calibration evidence remains
-> the immutable `v1.0.0` public release, while `R2` remains a separate research milestone with the
-> frozen `inconclusive-model` result. This release adds presentation and maintenance work, not a
-> new research claim. See the [maintenance policy](docs/MAINTENANCE.md) and
+> Version status: current software is the `v1.1.1` closure maintenance release. Calibration
+> evidence remains the immutable `v1.0.0` public release, while `R2` remains a separate research
+> milestone with the frozen `inconclusive-model` result. The closure line adds presentation and
+> maintenance work, not a new research claim; `v1.1.1` corrects the documented current-software
+> clone target. See the [maintenance policy](docs/MAINTENANCE.md) and
 > [portfolio evidence](PORTFOLIO.md).
 
 PhysGauge is a local, deterministic stress-test suite for video evaluation metrics. It injects
@@ -54,7 +55,7 @@ identifies **research milestone 2**.
 Python 3.11–3.13 is supported.
 
 ```bash
-git clone --branch v1.0.0 --depth 1 https://github.com/AlbertXXuu/PhysGauge.git
+git clone --branch v1.1.1 --depth 1 https://github.com/AlbertXXuu/PhysGauge.git
 cd PhysGauge
 
 python -m venv .venv

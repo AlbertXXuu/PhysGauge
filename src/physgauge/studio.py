@@ -202,7 +202,7 @@ INDEX_HTML = """<!doctype html>
         <button class="nav-button" id="learned-tab" type="button" role="tab"
           aria-controls="learned-view" aria-selected="false" data-view="learned">Learned-model study</button>
       </nav>
-      <span class="local-badge"><i aria-hidden="true"></i>Studio v1.1.0 · Calibration evidence v1.0.0</span>
+      <span class="local-badge"><i aria-hidden="true"></i>Studio v1.1.1 · Calibration evidence v1.0.0</span>
     </header>
 
     <main id="top">
