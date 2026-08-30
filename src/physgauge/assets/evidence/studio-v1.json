@@ -13,6 +13,50 @@
       "pixel_frechet": "Pixel Fréchet",
       "temporal_gradient_mse": "Temporal Δ"
     },
+    "severityResponse": {
+      "family": "inelastic",
+      "severityLabel": "Injected energy-loss severity",
+      "aggregation": "Mean over 24 seeded cases",
+      "normalization": "Each metric divided by its maximum measured response",
+      "series": [
+        {
+          "metric": "mse",
+          "metricLabel": "MSE",
+          "points": [
+            {"candidate": "inelastic-0.95", "severity": 0.05, "value": 0.00009241381697696245},
+            {"candidate": "inelastic-0.80", "severity": 0.2, "value": 0.0010139026126125827},
+            {"candidate": "inelastic-0.50", "severity": 0.5, "value": 0.003353945144529765}
+          ]
+        },
+        {
+          "metric": "ssim_error",
+          "metricLabel": "SSIM error",
+          "points": [
+            {"candidate": "inelastic-0.95", "severity": 0.05, "value": 0.004063380593280652},
+            {"candidate": "inelastic-0.80", "severity": 0.2, "value": 0.04446974082173242},
+            {"candidate": "inelastic-0.50", "severity": 0.5, "value": 0.1467203469417201}
+          ]
+        },
+        {
+          "metric": "pixel_frechet",
+          "metricLabel": "Pixel Fréchet",
+          "points": [
+            {"candidate": "inelastic-0.95", "severity": 0.05, "value": 0.000010421500305884544},
+            {"candidate": "inelastic-0.80", "severity": 0.2, "value": 0.00013976259428880307},
+            {"candidate": "inelastic-0.50", "severity": 0.5, "value": 0.0006099579772718436}
+          ]
+        },
+        {
+          "metric": "temporal_gradient_mse",
+          "metricLabel": "Temporal Δ",
+          "points": [
+            {"candidate": "inelastic-0.95", "severity": 0.05, "value": 0.000039413552713085664},
+            {"candidate": "inelastic-0.80", "severity": 0.2, "value": 0.00017372993897879496},
+            {"candidate": "inelastic-0.50", "severity": 0.5, "value": 0.00018858715763296155}
+          ]
+        }
+      ]
+    },
     "rows": [
       {
         "name": "collision-dropout",

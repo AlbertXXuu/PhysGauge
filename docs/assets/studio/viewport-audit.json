@@ -1,0 +1,112 @@
+{
+  "schema_version": "1.0",
+  "checked_on": "2026-08-30",
+  "software_version": "1.1.0-candidate",
+  "evidence_version": "1.0.0",
+  "protocol": "physgauge-collision-calibration-v1",
+  "browser": "Playwright Chromium 151.0.0.0",
+  "page": "http://127.0.0.1:7871/",
+  "viewport_height_px": 900,
+  "shared_header_contract": {
+    "position": "fixed",
+    "z_index": 100,
+    "top_px": 14,
+    "minimum_height_px": 70,
+    "gap_px": 28,
+    "padding": "12px 18px 12px 22px",
+    "border_radius_px": 26,
+    "background": "rgb(255 255 255 / 26%)",
+    "backdrop_filter": "blur(18px) saturate(148%)",
+    "wordmark_width_px": 160
+  },
+  "severity_response": {
+    "family": "inelastic",
+    "aggregation": "mean over 24 seeded cases",
+    "normalization": "each metric divided by its maximum measured response",
+    "series": [
+      {"metric": "mse", "values": [0.00009241381697696245, 0.0010139026126125827, 0.003353945144529765]},
+      {"metric": "ssim_error", "values": [0.004063380593280652, 0.04446974082173242, 0.1467203469417201]},
+      {"metric": "pixel_frechet", "values": [0.000010421500305884544, 0.00013976259428880307, 0.0006099579772718436]},
+      {"metric": "temporal_gradient_mse", "values": [0.000039413552713085664, 0.00017372993897879496, 0.00018858715763296155]}
+    ],
+    "severities": [0.05, 0.2, 0.5],
+    "intermediate_values_claimed": false,
+    "source": "docs/evidence/v1.0.0/results.json"
+  },
+  "viewports": [
+    {
+      "width_px": 900,
+      "scroll_width_px": 900,
+      "horizontal_overflow": false,
+      "hero_columns": 1,
+      "minimum_critical_target_height_px": 44,
+      "screenshot": "studio-900.png",
+      "screenshot_height_px": 3173,
+      "screenshot_sha256": "76660505f44baf242ab49552ee59dbf39e39dae0ecbf774394fee6f50ba09ed7"
+    },
+    {
+      "width_px": 1024,
+      "scroll_width_px": 1024,
+      "horizontal_overflow": false,
+      "hero_columns": 1,
+      "minimum_critical_target_height_px": 44,
+      "screenshot": "studio-1024.png",
+      "screenshot_height_px": 3283,
+      "screenshot_sha256": "19037735ce273a5511195e8a74c922262f847203ba7c890fb1696a8b4fab14d6"
+    },
+    {
+      "width_px": 1280,
+      "scroll_width_px": 1280,
+      "horizontal_overflow": false,
+      "hero_columns": 2,
+      "minimum_critical_target_height_px": 44,
+      "screenshot": "studio-1280.png",
+      "screenshot_height_px": 2540,
+      "screenshot_sha256": "29de9187071957d62f1e07d52c9363fbfdab9fdee1e10dddc2530e9c0f2f2b30"
+    },
+    {
+      "width_px": 1440,
+      "scroll_width_px": 1440,
+      "horizontal_overflow": false,
+      "hero_columns": 2,
+      "minimum_critical_target_height_px": 44,
+      "screenshot": "studio-1440.png",
+      "screenshot_height_px": 2612,
+      "screenshot_sha256": "08abbe9872fe6f0b2525e103548be9e6c7e3a2fe3202e9b42647ae856ca9d4ae"
+    },
+    {
+      "width_px": 1600,
+      "scroll_width_px": 1600,
+      "horizontal_overflow": false,
+      "hero_columns": 2,
+      "minimum_critical_target_height_px": 44,
+      "screenshot": "studio-1600.png",
+      "screenshot_height_px": 2651,
+      "screenshot_sha256": "75e8a03ec264a46f4dbb1117deda2c7c56b97c2fac6789b29b02396777d9f693"
+    }
+  ],
+  "keyboard": {
+    "wordmark_link_height_px": 48.484375,
+    "tab_height_px": 44,
+    "run_button_height_px": 58,
+    "run_button_focus_outline": "3px solid rgb(37 99 235 / 45%)",
+    "select_height_px": 44,
+    "input_height_px": 44,
+    "learned_view_activated": true
+  },
+  "learned_study": {
+    "heading": "Preregistered inconclusive result.",
+    "outcome": "inconclusive-model",
+    "classification": "too-weak",
+    "primary_interpretation_preserved": true
+  },
+  "live_smoke": {
+    "runs": 1,
+    "cases": 2,
+    "records": 20,
+    "seed": 7,
+    "result": "PASS",
+    "source_after_run": "Fresh local smoke check",
+    "writes_result_to_disk": false
+  }
+}

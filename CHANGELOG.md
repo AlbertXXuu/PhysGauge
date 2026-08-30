@@ -3,7 +3,7 @@
 All notable changes are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and releases use semantic versioning.
 
-## [Unreleased]
+## [1.1.0] - Unreleased
 
 ### Added
 
@@ -31,6 +31,12 @@ All notable changes are documented here. The format follows
 - Included the referenced protocols, evidence, bilingual documentation, and verification scripts in
   the source distribution.
 
+### Changed
+
+- Normalize current software, runtime, Studio, and documentation identity as the `v1.1.0`
+  presentation and maintenance closure candidate while preserving the unchanged `v1.0.0`
+  calibration evidence and the separate R2 `inconclusive-model` research milestone.
+
 ## [1.0.0] - 2026-08-24
 
 ### Added
@@ -48,5 +54,5 @@ All notable changes are documented here. The format follows
 - Reframed the incubator prototype from an unsupported universal leaderboard claim into a scoped,
   falsifiable metric-calibration tool.
 
-[Unreleased]: https://github.com/AlbertXXuu/PhysGauge/compare/v1.0.0...HEAD
+[1.1.0]: https://github.com/AlbertXXuu/PhysGauge/compare/v1.0.0...HEAD
 [1.0.0]: https://github.com/AlbertXXuu/PhysGauge/releases/tag/v1.0.0
