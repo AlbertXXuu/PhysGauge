@@ -3,6 +3,13 @@
 All notable changes are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and releases use semantic versioning.
 
+## [1.1.1] - 2026-08-31
+
+### Fixed
+
+- Correct the current-software quick start to clone `v1.1.1`, where the documented Studio exists,
+  while retaining `v1.0.0` as the immutable calibration-evidence reproduction baseline.
+
 ## [1.1.0] - 2026-08-31
 
 ### Added
@@ -54,5 +61,6 @@ All notable changes are documented here. The format follows
 - Reframed the incubator prototype from an unsupported universal leaderboard claim into a scoped,
   falsifiable metric-calibration tool.
 
-[1.1.0]: https://github.com/AlbertXXuu/PhysGauge/compare/v1.0.0...HEAD
+[1.1.1]: https://github.com/AlbertXXuu/PhysGauge/compare/v1.1.0...HEAD
+[1.1.0]: https://github.com/AlbertXXuu/PhysGauge/releases/tag/v1.1.0
 [1.0.0]: https://github.com/AlbertXXuu/PhysGauge/releases/tag/v1.0.0
