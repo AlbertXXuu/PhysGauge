@@ -1,8 +1,9 @@
 # PhysGauge v1.1.0 final release audit
 
-- Status: **CANDIDATE — Linux CI required before PASS**
+- Status: **PASS**
 - Audit date: `2026-08-30` (`Asia/Shanghai`)
 - Audited source commit: `cb0e7453d764b35ab35eb69e85fe6e9914547e7e`
+- First complete Linux-CI candidate commit: `4045b096f2789d15a838d6106b4d1d9d2a6f0529`
 - Target release: `v1.1.0`
 
 ## Release meaning
@@ -20,8 +21,9 @@ explicitly selected. Windows validation used Windows NT `10.0.26200.0`, PowerShe
 `3.11.0`, NumPy `2.4.6`, Pillow `12.3.0`, and Chromium `151.0.7922.34`. Built distributions were
 installed in two new isolated environments, one from the wheel and one from the source distribution.
 
-Linux is not inferred from the Windows result. This audit remains a candidate until the complete
-pull-request head passes the repository's GitHub Actions matrix on Ubuntu.
+Linux is not inferred from the Windows result. The complete candidate passed the repository's
+GitHub Actions matrix on Ubuntu. This record remains valid only while every check on the current
+head of pull request [#3](https://github.com/AlbertXXuu/PhysGauge/pull/3) is green.
 
 ## Readiness checklist
 
@@ -34,7 +36,7 @@ pull-request head passes the repository's GitHub Actions matrix on Ubuntu.
 | Windows/local tests | PASS | `34` unittest tests passed. Ruff passed. |
 | Repository checker | PASS | Version `1.1.0` and `67` tracked files validated, including this audit record. |
 | Deterministic evidence paths | PASS | Fresh installed-package run produced `240` passing records and four hash-verified artifacts; frozen v1 verification passed `240` records and R2 verification passed its four artifacts. |
-| Linux CI | PENDING | Required on the complete `closure/v1.1.0` pull-request head before this audit may become PASS. |
+| Linux CI | PASS | [Run 33314876093](https://github.com/AlbertXXuu/PhysGauge/actions/runs/33314876093) passed tests on Python 3.11/3.12/3.13 plus frozen evidence, sdist/wheel, and installed-wheel smoke on the complete candidate. |
 | README / README.zh-CN | PASS | Both are present, coherent with the `1.1.0` candidate identity, and preserve the frozen calibration/reproduction boundary. |
 | CHANGELOG / MAINTENANCE | PASS | `CHANGELOG.md` and `docs/MAINTENANCE.md` are present and define the bounded closure release plus maintenance-only follow-up. |
 | PORTFOLIO | PASS | Problem, original decisions, difficult failure modes, results, negative R2 result, evidence limits, and individual contribution are recorded. |
@@ -71,8 +73,8 @@ calibration result, R2 result, or frozen evidence object changed.
 
 ## Findings and disposition
 
-- **P0 blockers:** `0` locally; final count is contingent on Linux CI.
-- **P1 blockers:** `0` locally; final count is contingent on Linux CI.
+- **P0 blockers:** `0`.
+- **P1 blockers:** `0`.
 - **P2 accepted:** the old concept-hero selectors remain as unreachable declarations inside the
   existing minified CSS literal, but the corresponding DOM and animation are absent. Removing
   isolated tokens from that large generated-like literal immediately before release carries more
@@ -85,6 +87,6 @@ calibration result, R2 result, or frozen evidence object changed.
 
 ## Gate decision
 
-Local release readiness is **PASS**. Overall P10 readiness remains **PENDING** until the exact
-pull-request head passes every Linux CI job. No tag or release may be created from this candidate
-before that evidence exists.
+Release readiness is **PASS** with P0/P1 counts of zero. The audit-status reconciliation changes
+only this document and must pass the same pull-request checks before merge. No tag or release may
+be created until P11 validates the merged commit and reconfirms its current-head CI.
