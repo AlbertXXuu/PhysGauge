@@ -3,7 +3,7 @@
 All notable changes are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and releases use semantic versioning.
 
-## [1.1.0] - Unreleased
+## [1.1.0] - 2026-08-30
 
 ### Added
 
@@ -34,7 +34,7 @@ All notable changes are documented here. The format follows
 ### Changed
 
 - Normalize current software, runtime, Studio, and documentation identity as the `v1.1.0`
-  presentation and maintenance closure candidate while preserving the unchanged `v1.0.0`
+  presentation and maintenance closure release while preserving the unchanged `v1.0.0`
   calibration evidence and the separate R2 `inconclusive-model` research milestone.
 
 ## [1.0.0] - 2026-08-24

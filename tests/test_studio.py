@@ -113,7 +113,7 @@ class StudioTests(unittest.TestCase):
         self.assertIn('role="tablist"', INDEX_HTML)
         self.assertIn('id="smoke-cases"', INDEX_HTML)
         self.assertIn('id="smoke-seed"', INDEX_HTML)
-        self.assertIn("Studio v1.1.0 candidate", INDEX_HTML)
+        self.assertIn("Studio v1.1.0 · Calibration evidence v1.0.0", INDEX_HTML)
         self.assertIn("Calibration evidence v1.0.0", INDEX_HTML)
         self.assertIn("R2 · research milestone", INDEX_HTML)
         self.assertIn("line-height:1.02", STUDIO_CSS)

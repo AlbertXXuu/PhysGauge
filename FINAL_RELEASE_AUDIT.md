@@ -87,6 +87,15 @@ calibration result, R2 result, or frozen evidence object changed.
 
 ## Gate decision
 
-Release readiness is **PASS** with P0/P1 counts of zero. The audit-status reconciliation changes
-only this document and must pass the same pull-request checks before merge. No tag or release may
-be created until P11 validates the merged commit and reconfirms its current-head CI.
+Release readiness is **PASS** with P0/P1 counts of zero. No tag or release may be created until the
+bounded P11 identity delta below passes the same pull-request checks and its exact commit becomes
+`main`.
+
+## P11 release-identity delta
+
+After the P10 candidate passed, P11 changed only the release-state wording in `README.md`,
+`README.zh-CN.md`, `CHANGELOG.md`, `docs/MAINTENANCE.md`, the Studio badge, and its exact-label
+test. Software remains `1.1.0`; calibration evidence remains `v1.0.0`; R2 remains
+`inconclusive-model`; no package contract, candidate, metric, result, asset, protocol, or claim
+changed. This document's containing commit is the tag candidate and must pass every check on PR #3
+before it may become `main` or `v1.1.0`.

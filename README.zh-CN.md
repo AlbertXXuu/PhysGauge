@@ -8,8 +8,8 @@
 [路线图](docs/ROADMAP.md) · [学习模型实验协议（R2）](docs/r2-protocol.md) ·
 [v1 证据](docs/evidence/v1.0.0/report.md) · [学习模型证据](docs/evidence/r2/report.md)
 
-> 版本状态：当前软件是 `v1.1.0` 收尾候选版；校准证据仍是不可变的 `v1.0.0` 公开
-> 正式版，`R2` 继续表示独立研究里程碑并保留 `inconclusive-model` 冻结结果。候选版只
+> 版本状态：当前软件是 `v1.1.0` 收尾正式版；校准证据仍是不可变的 `v1.0.0` 公开
+> 正式版，`R2` 继续表示独立研究里程碑并保留 `inconclusive-model` 冻结结果。本次发布只
 > 收束展示与维护，不产生新的研究结论。详见[维护政策](docs/MAINTENANCE.md)与
 > [作品证据页](PORTFOLIO.md)。
 
