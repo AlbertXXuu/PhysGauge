@@ -42,10 +42,20 @@ CONTINUOUS_METRICS = frozenset(
         "velocity_rmse",
     }
 )
+CONTINUOUS_CASE_VECTORS = frozenset({"p1", "p2", "v1", "v2"})
 
 
-def _is_continuous_metric_path(segments: tuple[str | int, ...]) -> bool:
-    """Return whether a schema path contains a continuous measured value."""
+def _is_continuous_value_path(segments: tuple[str | int, ...]) -> bool:
+    """Return whether a schema path contains a continuous physical value."""
+
+    if (
+        len(segments) == 4
+        and segments[0] == "cases"
+        and isinstance(segments[1], int)
+        and segments[2] in CONTINUOUS_CASE_VECTORS
+        and isinstance(segments[3], int)
+    ):
+        return True
 
     if (
         len(segments) == 3
@@ -101,7 +111,7 @@ def _assert_reproduced_at(
                 f"{path}[{index}]",
             )
         return
-    if isinstance(expected, float) and _is_continuous_metric_path(segments):
+    if isinstance(expected, float) and _is_continuous_value_path(segments):
         if type(actual) is not float:
             raise ValueError(f"reproduction numeric type mismatch at {path}")
         try:

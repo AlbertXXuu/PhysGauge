@@ -4,6 +4,33 @@ from scripts.build_evidence import _assert_reproduced
 
 
 class EvidenceReproductionTests(unittest.TestCase):
+    def test_small_continuous_case_drift_is_accepted(self):
+        expected = {
+            "cases": [
+                {
+                    "case_id": "case-012",
+                    "v1": [0.5, -0.6205450014845106],
+                }
+            ]
+        }
+        actual = {
+            "cases": [
+                {
+                    "case_id": "case-012",
+                    "v1": [0.5, -0.6205450014845107],
+                }
+            ]
+        }
+
+        _assert_reproduced(expected, actual)
+
+    def test_continuous_case_drift_over_threshold_is_rejected(self):
+        expected = {"cases": [{"v1": [0.5, 1.0]}]}
+        actual = {"cases": [{"v1": [0.5, 1.0 + 2e-6]}]}
+
+        with self.assertRaisesRegex(ValueError, r"numeric mismatch at result\.cases\[0\]\.v1\[1\]"):
+            _assert_reproduced(expected, actual)
+
     def test_small_continuous_metric_drift_is_accepted(self):
         expected = {
             "records": [{"mse": 1.0}],
@@ -91,6 +118,15 @@ class EvidenceReproductionTests(unittest.TestCase):
             ),
             ({"records": [{"severity": 0.5}]}, {"records": [{"severity": 0.500000001}]}),
             ({"protocol_id": "protocol-v1"}, {"protocol_id": "protocol-v2"}),
+            (2.0, 2),
+            (
+                {"cases": [{"radius": 0.04}]},
+                {"cases": [{"radius": 0.04 + 5e-9}]},
+            ),
+            (
+                {"cases": [{"case_id": "case-012"}]},
+                {"cases": [{"case_id": "case-013"}]},
+            ),
             (
                 {"records": [{"case_id": "case-000", "candidate": "correct"}]},
                 {"records": [{"case_id": "case-000", "candidate": "random"}]},

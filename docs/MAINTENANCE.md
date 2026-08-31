@@ -34,12 +34,14 @@ consistent with NumPy 2.3's documented [iterator and reduction changes][numpy-it
 NumPy's warning that float32 [`mean` results can vary with accumulation precision][numpy-mean].
 
 The frozen artifacts and metric implementations remain unchanged. Reproduction comparison permits
-`rtol=1e-6` and `atol=1e-10` only for continuous record metrics, candidate mean metrics, and the
-measured values used by monotonicity summaries. Schema and container types, configuration,
+`rtol=1e-6` and `atol=1e-10` only for the numeric components of the generated `p1`, `p2`, `v1`, and
+`v2` case vectors, continuous record metrics, candidate mean metrics, and measured values used by
+monotonicity summaries. The case-vector allowlist was required by a one-ULP Windows/glibc `sin`
+difference exposed by Linux CI. Scalar case parameters, schema and container types, configuration,
 protocol/case/candidate identity, booleans, integers and counts, `severity`, `physics_failed`, every
 `low_sensitivity_*` and `exact_miss_*` value, detection/rate decisions, and monotonicity decisions
 remain exact. A new field is exact by default until the schema-aware comparator explicitly
-classifies it as a continuous measurement.
+classifies it as a continuous physical measurement.
 
 ## Research reopening gate
 
