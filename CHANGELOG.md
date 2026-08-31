@@ -3,6 +3,16 @@
 All notable changes are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and releases use semantic versioning.
 
+## [1.1.2] - 2026-08-31
+
+### Fixed
+
+- Align the Studio header with the shared AlvenX wordmark-driven shell geometry by removing the
+  project navigation wrapper's extra vertical padding.
+- Make frozen v1 evidence reproduction portable across supported NumPy versions by applying
+  `rtol=1e-6` and `atol=1e-10` only to continuous measured values; schema, configuration,
+  identities, counts, and scientific decisions remain exact.
+
 ## [1.1.1] - 2026-08-31
 
 ### Fixed
@@ -61,6 +71,7 @@ All notable changes are documented here. The format follows
 - Reframed the incubator prototype from an unsupported universal leaderboard claim into a scoped,
   falsifiable metric-calibration tool.
 
-[1.1.1]: https://github.com/AlbertXXuu/PhysGauge/compare/v1.1.0...HEAD
+[1.1.2]: https://github.com/AlbertXXuu/PhysGauge/compare/v1.1.1...v1.1.2
+[1.1.1]: https://github.com/AlbertXXuu/PhysGauge/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/AlbertXXuu/PhysGauge/releases/tag/v1.1.0
 [1.0.0]: https://github.com/AlbertXXuu/PhysGauge/releases/tag/v1.0.0

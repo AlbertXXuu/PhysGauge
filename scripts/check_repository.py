@@ -27,6 +27,7 @@ REQUIRED = (
     "pyproject.toml",
     ".github/workflows/ci.yml",
     "docs/ERRATA.md",
+    "docs/V1.1.2_RELEASE_SOURCE_VALIDATION.md",
     "docs/ROADMAP.md",
     "docs/protocol.md",
     "docs/studio.md",
@@ -52,9 +53,18 @@ def main() -> int:
     metadata = tomllib.loads((ROOT / "pyproject.toml").read_text(encoding="utf-8"))
     declared = metadata["project"]["version"]
     if declared != physgauge.__version__:
-        errors.append(
-            f"version mismatch: pyproject={declared}, package={physgauge.__version__}"
-        )
+        errors.append(f"version mismatch: pyproject={declared}, package={physgauge.__version__}")
+    release_markers = {
+        "README.md": f"git clone --branch v{declared} --depth 1",
+        "README.zh-CN.md": f"git clone --branch v{declared} --depth 1",
+        "CHANGELOG.md": f"## [{declared}] - ",
+        "docs/MAINTENANCE.md": f"Current public release: `v{declared}`",
+        "src/physgauge/studio.py": f"Studio v{declared} · Calibration evidence v1.0.0",
+    }
+    for relative, marker in release_markers.items():
+        source = (ROOT / relative).read_text(encoding="utf-8")
+        if marker not in source:
+            errors.append(f"release identity mismatch in {relative}: expected {marker!r}")
 
     tracked = []
     try:

@@ -8,9 +8,10 @@
 [路线图](docs/ROADMAP.md) · [学习模型实验协议（R2）](docs/r2-protocol.md) ·
 [v1 证据](docs/evidence/v1.0.0/report.md) · [学习模型证据](docs/evidence/r2/report.md)
 
-> 版本状态：当前软件是 `v1.1.1` 收尾维护版；校准证据仍是不可变的 `v1.0.0` 公开
+> 版本状态：当前软件是 `v1.1.2` 收尾维护版；校准证据仍是不可变的 `v1.0.0` 公开
 > 正式版，`R2` 继续表示独立研究里程碑并保留 `inconclusive-model` 冻结结果。收尾版本
-> 只处理展示与维护，不产生新的研究结论；`v1.1.1` 修正文档中的当前软件克隆目标。详见
+> 只处理展示与维护，不产生新的研究结论；`v1.1.2` 对齐 Studio 页眉，并只对连续指标中
+> 有界的跨 NumPy 浮点漂移提供复现兼容。详见
 > [维护政策](docs/MAINTENANCE.md)与
 > [作品证据页](PORTFOLIO.md)。
 
@@ -46,7 +47,7 @@ PhysGauge 是一个本地、确定性的视频评测指标压力测试工具。�
 支持 Python 3.11–3.13。
 
 ```powershell
-git clone --branch v1.1.1 --depth 1 https://github.com/AlbertXXuu/PhysGauge.git
+git clone --branch v1.1.2 --depth 1 https://github.com/AlbertXXuu/PhysGauge.git
 cd PhysGauge
 
 python -m venv .venv
