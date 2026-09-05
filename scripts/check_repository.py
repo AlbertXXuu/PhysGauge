@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import hashlib
 import re
 import sys
 import tomllib
@@ -32,6 +33,8 @@ REQUIRED = (
     "docs/protocol.md",
     "docs/studio.md",
     "docs/assets/alvenx-wordmark.svg",
+    "docs/assets/alvenx-lockup.svg",
+    "scripts/check_home_navigation.js",
     "src/physgauge/assets/brand/alvenx-wordmark.svg",
     "src/physgauge/assets/brand/alvenx-monogram.svg",
     "src/physgauge/assets/evidence/studio-v1.json",
@@ -49,6 +52,10 @@ def main() -> int:
     for relative in REQUIRED:
         if not (ROOT / relative).is_file():
             errors.append(f"missing required file: {relative}")
+
+    manifest = (ROOT / "MANIFEST.in").read_text(encoding="utf-8")
+    if "include scripts/check_home_navigation.js" not in manifest:
+        errors.append("source distribution must include the browser acceptance check")
 
     metadata = tomllib.loads((ROOT / "pyproject.toml").read_text(encoding="utf-8"))
     declared = metadata["project"]["version"]
@@ -88,7 +95,12 @@ def main() -> int:
     if re.search(r"all .*leaderboard|every .*metric fails", readme, flags=re.IGNORECASE):
         errors.append("README contains an unsupported universal claim")
 
-    lockup = (ROOT / "docs/assets/alvenx-wordmark.svg").read_text(encoding="utf-8")
+    wordmark = (ROOT / "docs/assets/alvenx-wordmark.svg").read_text(encoding="utf-8")
+    if hashlib.sha256(wordmark.encode("utf-8")).hexdigest() != (
+        "6cc422fb2ed289bee723f1c6e6d19baec63c18d988616eb5b90d8332a30b7b1e"
+    ):
+        errors.append("README wordmark differs from the canonical AlvenX asset")
+    lockup = (ROOT / "docs/assets/alvenx-lockup.svg").read_text(encoding="utf-8")
     for fragment in (
         'viewBox="0 0 430 150"',
         "AlvenX — Physics Evidence",
@@ -98,11 +110,18 @@ def main() -> int:
         'transform="translate(43.128 126) scale(.018 -.018)"',
     ):
         if fragment not in lockup:
-            errors.append(f"README project lockup is missing: {fragment}")
+            errors.append(f"Preserved project lockup is missing: {fragment}")
+    readme_header = (
+        '<p align="center">\n'
+        '  <img src="docs/assets/alvenx-wordmark.svg" width="320" alt="AlvenX">\n'
+        "  <br>\n"
+        "  <sub>PHYSICS EVIDENCE</sub>\n"
+        "</p>\n"
+    )
     for relative in ("README.md", "README.zh-CN.md"):
         source = (ROOT / relative).read_text(encoding="utf-8")
-        if "<strong>PHYSICS EVIDENCE</strong>" in source:
-            errors.append(f"{relative} must use the single-SVG project lockup")
+        if not source.startswith(readme_header):
+            errors.append(f"{relative} must use the canonical wordmark and separate subtitle")
 
     evidence = ROOT / "docs" / "evidence" / "v1.0.0"
     if evidence.is_dir():
