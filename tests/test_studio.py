@@ -135,12 +135,48 @@ class StudioTests(unittest.TestCase):
         self.assertIn("renderResponse(d.severityResponse)", STUDIO_JS)
         self.assertIn("divided by its own observed maximum", STUDIO_JS)
         self.assertIn(".response-line.s3", STUDIO_CSS)
+        for fragment in (
+            ".response-line.s0{stroke:#2563eb}",
+            ".response-line.s1{stroke:#4f46e5;stroke-dasharray:24 12}",
+            ".response-line.s2{stroke:#7c3aed;stroke-dasharray:4 12}",
+            ".response-line.s3{stroke:#3b82f6;stroke-dasharray:24 12 4 12}",
+            ".response-dot.s0{stroke:#2563eb}",
+            ".response-dot.s1{stroke:#4f46e5}",
+            ".response-dot.s2{stroke:#7c3aed}",
+            ".response-dot.s3{stroke:#3b82f6}",
+            ".response-points strong i.s1{background:#4f46e5}",
+            ".response-points strong i.s2{background:#7c3aed}",
+            ".response-points strong i.s3{background:#3b82f6}",
+            "background:rgb(147 197 253 / 28%);color:var(--blue)",
+            ".outcome-pill{padding:9px 12px;border-radius:999px;background:#ede9fe;color:#6d28d9",
+        ):
+            self.assertIn(fragment, STUDIO_CSS)
         self.assertNotIn('class="collision-field"', INDEX_HTML)
         self.assertNotIn("@keyframes blue-collision", STUDIO_CSS)
         self.assertIn("body{min-width:0}", STUDIO_CSS)
         self.assertIn("@media(max-width:1100px)", STUDIO_CSS)
         self.assertIn(".nav-button{min-height:44px", STUDIO_CSS)
-        self.assertIn(".text-button{min-height:44px", STUDIO_CSS)
+        self.assertIn(".brand-link{display:flex;width:160px;margin:0;padding:0;border:0", STUDIO_CSS)
+        self.assertIn(
+            "-webkit-appearance:none;appearance:none;background:transparent;"
+            "color:inherit;font:inherit",
+            STUDIO_CSS,
+        )
+        self.assertIn(".brand-link{min-height:44px;align-items:center;flex:0 0 auto}", STUDIO_CSS)
+        self.assertIn('class="view-menu" data-view-menu', INDEX_HTML)
+        self.assertIn("@media(max-width:760px){.site-header nav{display:none}.view-menu{display:block}", STUDIO_CSS)
+        self.assertIn("button.setAttribute('aria-current',String(active))", STUDIO_JS)
+        self.assertIn(".text-button{display:inline-flex;min-height:44px", STUDIO_CSS)
+        self.assertEqual(INDEX_HTML.count('class="link-label"'), 2)
+        self.assertEqual(
+            INDEX_HTML.count('class="link-arrow" aria-hidden="true"'), 2
+        )
+        self.assertIn(".liquid-button,.text-button{text-decoration:none}", STUDIO_CSS)
+        self.assertIn(
+            ".text-button .link-label{text-decoration:underline;text-underline-offset:.14em}",
+            STUDIO_CSS,
+        )
+        self.assertIn(".link-arrow{display:inline-block;flex:0 0 auto;text-decoration:none}", STUDIO_CSS)
 
     def test_non_loopback_host_is_rejected(self):
         with self.assertRaisesRegex(ValueError, "local-only"):

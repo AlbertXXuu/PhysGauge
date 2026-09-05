@@ -6,4 +6,5 @@ include SECURITY.md
 recursive-include docs *.csv *.json *.md *.svg
 recursive-include docs/assets/studio *.png
 recursive-include scripts *.py
+include scripts/check_home_navigation.js
 global-exclude __pycache__ *.py[cod]

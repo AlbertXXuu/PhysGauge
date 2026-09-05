@@ -1,5 +1,7 @@
 <p align="center">
   <img src="docs/assets/alvenx-wordmark.svg" width="320" alt="AlvenX">
+  <br>
+  <sub>PHYSICS EVIDENCE</sub>
 </p>
 
 # PhysGauge
