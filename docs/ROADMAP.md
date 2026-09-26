@@ -1,5 +1,13 @@
 # PhysGauge 路线图 · 里程碑 · 验收（修订版 2026-08-24）
 
+<!-- 2026-09-26 execution routing -->
+## Current engineering stage — 2026-09-26
+
+Complete the documented calibration/report reconstruction and metric-integration explanation using existing inputs and counterexamples. Acceptance follows [maintenance](MAINTENANCE.md) and the current README; preserve R2 `inconclusive-model` and frozen evidence. The R1–R3 records below retain their original dates and decisions; they are not a new experiment allocation.
+
+## Historical research roadmap
+
+
 > 本文件是研究计划与进度来源。事实来源仍是 protocol、evidence、测试和 Release；本文件只负责计划与进度追踪，不是证据。
 > 软件版本、研究成熟度、市场影响力是三件不同的事，分开记。
 

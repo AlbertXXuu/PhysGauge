@@ -46,7 +46,8 @@ classifies it as a continuous physical measurement.
 ## Research reopening gate
 
 New physical systems, models, metrics, UI surfaces, dependencies or benchmark scale require a
-specific external need or registered hypothesis. Reopening learned-model validation requires a new
+specific Issue, reproducible experiment failure, explicit user requirement or registered hypothesis.
+Engineering completion does not depend on external adoption. Reopening learned-model validation requires a new
 protocol ID, a new unseen test split, a predeclared capability gate, cost/repetition limits and an
 explanation of why R2's weak-model result will not be reused for tuning.
 
