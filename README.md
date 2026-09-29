@@ -6,10 +6,10 @@
 
 # PhysGauge
 
-[简体中文](README.zh-CN.md) · [Protocol](docs/protocol.md) · [Claims matrix](docs/research/claims-matrix.md) · [Errata](docs/ERRATA.md) ·
+[English](README.md) · [简体中文](README.zh-CN.md) · [Protocol](docs/protocol.md) · [Claims matrix](docs/research/claims-matrix.md) · [Errata](docs/ERRATA.md) ·
 [Roadmap](docs/ROADMAP.md) · [learned-model protocol (R2)](docs/r2-protocol.md) ·
-[v1 evidence](docs/evidence/v1.0.0/report.md) ·
-[learned-model evidence](docs/evidence/r2/report.md)
+v1 report: [English](docs/evidence/v1.0.0/report.md) / [简体中文](docs/evidence/v1.0.0-report.zh-CN.md) ·
+R2 report: [English](docs/evidence/r2/report.md) / [简体中文](docs/evidence/r2-report.zh-CN.md)
 
 > Version status: current software is the `v1.1.2` closure maintenance release. Calibration
 > evidence remains the immutable `v1.0.0` public release, while `R2` remains a separate research
