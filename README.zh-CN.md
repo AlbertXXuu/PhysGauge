@@ -6,9 +6,10 @@
 
 # PhysGauge
 
-[English](README.md) · [协议说明](docs/protocol.md) · [结论矩阵](docs/research/claims-matrix.md) · [勘误](docs/ERRATA.md) ·
+[English](README.md) · [简体中文](README.zh-CN.md) · [协议说明](docs/protocol.md) · [结论矩阵](docs/research/claims-matrix.md) · [勘误](docs/ERRATA.md) ·
 [路线图](docs/ROADMAP.md) · [学习模型实验协议（R2）](docs/r2-protocol.md) ·
-[v1 证据](docs/evidence/v1.0.0/report.md) · [学习模型证据](docs/evidence/r2/report.md)
+v1 报告：[English](docs/evidence/v1.0.0/report.md) / [简体中文](docs/evidence/v1.0.0-report.zh-CN.md) ·
+R2 报告：[English](docs/evidence/r2/report.md) / [简体中文](docs/evidence/r2-report.zh-CN.md)
 
 > 版本状态：当前软件是 `v1.1.2` 收尾维护版；校准证据仍是不可变的 `v1.0.0` 公开
 > 正式版，`R2` 继续表示独立研究里程碑并保留 `inconclusive-model` 冻结结果。收尾版本
@@ -41,7 +42,7 @@ PhysGauge 是一个本地、确定性的视频评测指标压力测试工具。�
 状态动力学预测器。三个种子都被分类为 `too-weak`：碰撞后 partial-error 比例为
 91.8%–99.6%，因此冻结结果是 `inconclusive-model`。部分视觉指标虽出现分歧，但模型能力门
 先失败，因此预注册解释保持为 `inconclusive-model`。详见
-[负结果说明](docs/research/negative-result-r2.md)、[学习模型报告](docs/evidence/r2/report.md)和
+[负结果说明](docs/research/negative-result-r2.md)、[学习模型报告（简体中文）](docs/evidence/r2-report.zh-CN.md)和
 [实验协议](docs/r2-protocol.md)。这里的 `R2` 是**研究里程碑 2**。
 
 ## 快速开始
